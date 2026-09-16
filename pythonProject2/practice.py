@@ -626,3 +626,181 @@
 # path = [1, 2, 3]
 # N = len(path)
 # perm(0, 0)
+
+
+######################################################################
+#   Queue 1 (0916)
+
+# que = [0] * 1000000
+# front = rear = - 1
+
+# for i in range(1000000):
+#     rear += 1
+#     que[rear] = i
+# print(rear)
+
+# rear += 1   # enqueue(1)
+# que[rear] = 1
+# rear += 1   # enq 2
+# que[rear] = 2
+# rear += 1   # enq 3
+# que[rear] = 3
+
+# front += 1
+# print(que[front])
+# front += 1
+# print(que[front])
+# front += 1
+# print(que[front])
+
+# while front != rear:
+#     front += 1
+#     print(que[front])
+
+# q = []  # 큐 생성
+# q.append(1)
+# q.append(2)
+# q.append(3)
+# print(q.pop(0))
+# print(q.pop(0))
+# print(q.pop(0))
+
+# from collections import deque
+# q = deque()     # 큐 생성
+# for i in range(1000000):
+#     q.append(i)
+# print(len(q))
+# for _ in range(1000000):
+#     q.popleft()
+# print(len(q))
+
+
+######################################################################
+#   Queue 2 (0916)
+
+# # BFS
+# '''
+# 7 8
+# 4 2 1 2 1 3 5 2 4 6 5 6 6 7 3 7
+# '''
+# def bfs(s, V):
+#     # 초기화
+#     visited = [0] * (V + 1)      # visited 생성
+#     q = [s]                     # 큐 생성
+#     # q.append(s)                 # 시작점 인큐
+#     visited[s] = 1              # 시작점 인큐 표시
+#     while q:
+#         t = q.pop(0)        # 디큐
+#         print(t)            # t 처리
+#         for w in adj_l[t]:  # 인접하고 인큐된적이 없는 정점 w면
+#             if visited[w] == 0:
+#                 q.append(w) # 인큐하고 인큐 표시
+#                 visited[w] = visited[t] + 1
+#     print(visited)
+#     # 반복
+#
+# V, E = map(int, input().split())
+# arr =list(map(int, input().split()))
+# # 인접리스트
+# adj_l = [[] for _ in range(V + 1)]  # V번 행까지 필요
+# for i in range(E):
+#     v1, v2 = arr[i*2], arr[i*2+1]
+#     adj_l[v1].append(v2)
+#     adj_l[v2].append(v1)    # 방향이 없는 간선의 경우
+#
+# bfs(4, V)
+
+# # BFS (출발점 두개)
+# '''
+# 7 8
+# 4 2 1 2 1 3 5 2 4 6 5 6 6 7 3 7
+# '''
+# def bfs(s, V):
+#     # 초기화
+#     visited = [0] * (V + 1)      # visited 생성
+#     q = [1, 4]                     # 큐 생성
+#     # q.append(s)                 # 시작점 인큐
+#     visited[1] = 1              # 시작점 인큐 표시
+#     visited[4] = 1
+#     while q:
+#         t = q.pop(0)        # 디큐
+#         print(t)            # t 처리
+#         for w in adj_l[t]:  # 인접하고 인큐된적이 없는 정점 w면
+#             if visited[w] == 0:
+#                 q.append(w) # 인큐하고 인큐 표시
+#                 visited[w] = visited[t] + 1
+#     print(visited)
+#     # 반복
+#
+# V, E = map(int, input().split())
+# arr =list(map(int, input().split()))
+# # 인접리스트
+# adj_l = [[] for _ in range(V + 1)]  # V번 행까지 필요
+# for i in range(E):
+#     v1, v2 = arr[i*2], arr[i*2+1]
+#     adj_l[v1].append(v2)
+#     adj_l[v2].append(v1)    # 방향이 없는 간선의 경우
+#
+# bfs(1, V)
+
+# # BFS를 활용한 미로 탐색 (swea 5105)
+# def find_start(maze, N):
+#     for i in range(N):
+#         for j in range(N):
+#             if maze[i][j] == '2':
+#                 return i, j
+#
+# def bfs(i, j, N):
+#     # 초기화
+#     visited = [[0]*N for _ in range(N)]     # visited 생성
+#     q = [(i, j)]                            # 큐 생성
+#     # 시작점 인큐
+#     visited[i][j] = 1                       # 시작점 인큐 표시
+#     # 반복
+#     while q:
+#         ti, tj = q.pop(0)                   # 디큐
+#         if maze[ti][tj] == '3':             # 처리
+#             return visited[ti][tj] - 2
+#         for di, dj in [[0,1],[1,0],[0,-1],[-1,0]]:  # 인접칸이 벽이 아니고 인큐한 적이 없으면
+#             ni, nj = ti + di, tj + dj
+#             if 0 <= ni < N and 0 <= nj < N and maze[ni][nj] != '1' and visited[ni][nj] == 0:
+#                 q.append([ni, nj])          # 인큐, 인큐 표시
+#                 visited[ni][nj] = visited[ti][tj] + 1
+#     return 0
+#
+# T = int(input())
+# for tc in range(1, T+1):
+#     N = int(input())
+#     maze = [input() for _ in range(N)]
+#
+#     si, sj = find_start(maze, N)
+#     ans = bfs(si, sj, N)
+#     print(f'#{tc} {ans}')
+
+# # 물놀이를 가자 (swea 10966)
+# from collections import deque
+# N, M = map(int, input().split())
+# arr = [input() for _ in range(N)]
+#
+# # 초기화
+# visited = [[0] * M for _ in range(N)]
+# q = deque()
+# # 시작점 인큐 / 인큐 표시
+# for i in range(N):
+#     for j in range(M):
+#         if arr[i][j] == 'W':
+#             q.append((i,j))
+#             visited[i][j] = 1
+# # 반복
+# while q:
+#     ti, tj = q.popleft()
+#     for di, dj in [[0,1],[1,0],[0,-1],[-1,0]]:  # 인접칸이 땅이고 방문한적 없으면
+#         ni, nj = ti + di, tj + dj
+#         if 0 <= ni < N and 0 <= nj < M and arr[ni][nj] == 'L' and visited[ni][nj] == 0:
+#             q.append((ni, nj))
+#             visited[ni][nj] = visited[ti][tj] + 1
+#
+# s = 0
+# for row in visited:
+#     s += sum(row)
+# print(s - N*M)
