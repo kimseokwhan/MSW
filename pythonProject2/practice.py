@@ -804,3 +804,139 @@
 # for row in visited:
 #     s += sum(row)
 # print(s - N*M)
+
+
+######################################################################
+#   Tree 1 (0917)
+
+# '''
+# 완전이진트리에서 11번 정점의 조상노드의 번호는?
+# '''
+# n = 11
+# while n//2 > 0:
+#     n //= 2
+#     print(n)
+
+# # 트리 ex
+# def pre_order(T):   # 전위순회, 방문한 정점(부모) 먼저 처리
+#     if T:   # 0이 아니면 (존재하는 정점이면)
+#         print(T)    # visit(T) T에서 할일 처리
+#         pre_order(left[T])  # 왼쪽 자식(서브트리)로 이동
+#         pre_order(right[T]) # 오른쪽 자식(서브트리)로 이동
+#
+# def in_order(T):
+#     if T:   # 0이 아니면 (존재하는 정점이면)
+#         in_order(left[T])  # 왼쪽 자식(서브트리)로 이동
+#         print(T)  # visit(T) T에서 할일 처리
+#         in_order(right[T]) # 오른쪽 자식(서브트리)로 이동
+#
+# def post_order(T):
+#     if T:   # 0이 아니면 (존재하는 정점이면)
+#         post_order(left[T])  # 왼쪽 자식(서브트리)로 이동
+#         post_order(right[T]) # 오른쪽 자식(서브트리)로 이동
+#         print(T)  # visit(T) T에서 할일 처리
+#
+# N = int(input())    # 1번부터 N번 정점이 존재
+# E = N -1            # 간선 수
+# arr = list(map(int, input().split()))
+#
+# # 부모를 인덱스로 자식번호 저장
+# left = [0] * (N + 1)    # N번 인덱스 필요
+# right = [0] * (N + 1)
+# for i in range(E):
+#     p, c = arr[i*2], arr[i*2+1]
+#     if left[p] == 0:
+#         left[p] = c
+#     else:
+#         right[p] = c
+#
+# pre_order(1)
+
+
+######################################################################
+#   Tree 2 (0917)
+
+# # subtree
+# def pre_order(T):
+#     global cnt
+#     if T:
+#         cnt += 1
+#         pre_order(left[T])
+#         pre_order(right[T])
+#
+# def f(T):
+#     if T == 0:
+#         return 0
+#     l = f(left[T])
+#     r = f(right[T])
+#     return l + r + 1
+#
+# T = int(input())
+# for tc in range(1, T+1):
+#     # 간선의 개수 E, 서브트리 루트 N
+#     E, N = map(int, input().split())
+#     V = E + 1   # 마지막 정점 번호
+#     arr = list(map(int, input().split()))
+#
+#     left = [0] * (V + 1)
+#     right = [0] * (V + 1)
+#
+#     for i in range(E):
+#         p, c = arr[i*2], arr[i*2+1]
+#         if left[p] == 0:
+#             left[p] = c
+#         else:
+#             right[p] = c
+#
+#     cnt = 0
+#     pre_order(N)
+#     ans = f(N)
+#     print(f'#{tc} {cnt}')
+#     print(f'#{tc} {ans}')
+
+# # binary heap
+# def enq(n):
+#     global last
+#     last += 1   # 마지막 정점 추가
+#     heap[last] = n  # 마지막 정점에 저장
+#
+#     # 최소힙 : 부모 < 자식
+#     c = last
+#     p = c//2
+#     # 부모가 있고, 부모 > 자식 이면 교환
+#     while p and heap[p] > heap[c]:
+#         heap[p], heap[c] = heap[c], heap[p]
+#         c = p   # 부모와 부모의 부모를 비교...
+#         p = c // 2
+#
+# N = int(input())
+# arr = list(map(int, input().split()))
+#
+# heap = [0] * (N + 1)    # N개의 정점을 가진 완전이진트리
+# last = 0    # 마지막 정점 번호
+# for x in arr:
+#     enq(x)
+#
+# ans = 0
+# c = last
+# while c // 2 > 0:
+#     c //= 2
+#     ans += heap[c]
+# print(ans)
+
+# 완전 이진 트리 (swea 5176)
+def f(t):
+    global cnt
+    if t <= N:
+        f(t * 2)
+        # print(t, end=' ')
+        cnt += 1
+        tree[t] = cnt
+        f(t * 2 + 1)
+
+N = int(input())
+
+tree = [0] * (N + 1)    # 노드번호를 인덱스로 사용해서 저장
+cnt = 0
+f(1)    # 완전이진트리 루트부터 중위순회
+print(tree)
