@@ -4,52 +4,6 @@ sys.stdin = open("electric_cart_input.txt")
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # # 강사님 풀이
 # def perm(lev, cursum):
 #     global ans
