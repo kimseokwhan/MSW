@@ -780,3 +780,89 @@ DFS - 탐색순서에 포커스 맞춰서 푼다
 #     print('이미 같은 그룹')
 # else:
 #     print('다른 그룹')
+
+
+######################################################################
+#   그래프 2 (1007)
+
+# 우선순위 큐
+# # min heap
+# import heapq
+# arr = []
+# heapq.heappush(arr, 13)
+# heapq.heappush(arr, 5)
+# heapq.heappush(arr, 17)
+# heapq.heappush(arr, 9)
+# print(arr)
+# # for i in range(len(arr)):
+# #     print(heapq.heappop(arr), end=' ')
+# while arr:
+#     node = heapq.heappop(arr)
+#     print(node, end=' ')
+
+# # max heap
+# import heapq
+# arr = [3, 234, 23, 12, 31]
+# heap = []
+# for i in range(len(arr)):
+#     heapq.heappush(heap, -arr[i])
+# for i in range(len(arr)):
+#     # print(heapq.heappop(heap) * -1, end=' ')
+#     print(-heapq.heappop(heap), end=' ')
+#
+# # heapify 사용 (시간 줄임)
+# import heapq
+# arr = [3, 234, 23, 12, 31]
+# arr = list(map(lambda x:-x, arr))   # arr 배열의 모든 원소에 - 붙인후, arr에 재핳당
+# heapq.heapify(arr)
+# for i in range(len(arr)):
+#     print(-heapq.heappop(arr), end=' ')
+
+# # prim 알고리즘
+# import heapq
+#
+# n = int(input())
+# m = int(input())
+#
+# arr = [[] for _ in range(n)]
+#
+# # 무방향 그래피이므로 양방향 저장
+# for _ in range(m):
+#     start, end, cost = map(int, input().split())
+#
+#     arr[start].append((cost, end))
+#     arr[end].append((cost, start))
+#
+# used = [0] * n
+# heap = []
+#
+# # (비용, 정점)
+# heapq.heappush(heap, (0, 0))    # 비용 시작정점
+#
+# total = 0   # 총 비용을 합치기
+# cnt = 0     # 연결한 간선의 개수
+#
+# while heap:
+#     cost, now = heapq.heappop(heap)
+#
+#     # 이미 MST에 포함된 정점이면 무시
+#     if used[now] == 1:
+#         continue
+#
+#     # MST에 정점 포함
+#     used[now] = 1   # 방문체크
+#     total += cost   # 비용의 합
+#     cnt += 1        # 연결된 간선의 개수 1증가
+#
+#     # 모든 정점을 선택했다면 종료
+#     if cnt == n:
+#         break
+#
+#     # 현재 정점과 연결된 간선들을 우선순위 큐에 추가
+#     for next_cost, next_node, in arr[now]:
+#         if used[next_node] == 0:
+#             heapq.heappush(heap, (next_cost, next_node))
+#
+# print(total)
+
+# kruskal 알고리즘      ####################다시보기
