@@ -1,0 +1,7 @@
+# NF2004: 화면에 오류 추적 정보를 노출하지 않는다
+[client]
+showErrorDetails = "none"
+toolbarMode = "minimal"
+
+[server]
+fileWatcherType = "none"
