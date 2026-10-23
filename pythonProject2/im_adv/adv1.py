@@ -6,15 +6,39 @@ T = int(input())
 for tc in range(1, T + 1):
     N, M, K = map(int, input().split())
 
-    # 오답으로 나눌 수 있는 정답 구간의 개수
-    groups = N - M + 1
+    # # 오답으로 나눌 수 있는 정답 구간의 개수
+    # groups = N - M + 1
+    #
+    # # 피할 수 없는 점수 2배 발생 횟수
+    # extra = max(0, M - groups * (K - 1))
+    # cnt = (extra + K - 1) // K
+    #
+    # # cnt번 점수가 2배가 된 뒤 남은 정답은 1점씩 추가
+    # score = 2 * K * (2 ** cnt - 1) + (M - cnt * K)
 
-    # 피할 수 없는 점수 2배 발생 횟수
-    extra = max(0, M - groups * (K - 1))
-    cnt = (extra + K - 1) // K
+    problem = [1] * (N + 1)
+    wrong = N - M
+    # for i in range(M):
+    #     problem[i] = 1
 
-    # cnt번 점수가 2배가 된 뒤 남은 정답은 1점씩 추가
-    score = 2 * K * (2 ** cnt - 1) + (M - cnt * K)
+    for j in range(N-1, -1, -1):
+        if wrong == 0:
+            break
+        if (j % K) == 0:
+            problem[j] = 0
+            wrong -= 1
+
+    score = 0
+    for k in range(1, N+1):
+        if problem[k] == 1:
+            if (k % K) == 0:
+                score += 1
+                score *= 2
+            else:
+                score += 1
+
+    if M < K:
+        score = M
 
     print(f'#{tc} {score}')
 
