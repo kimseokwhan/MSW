@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% if not request.user.is_authenticated %}
+    <a href="{% url "accounts:login" %}">로그인</a>
+  {% else %}
+    <a href="{% url "accounts:logout" %}">로그아웃</a>
+  {% endif %}
+  <h1>책 전체 목록</h1>
+  <ul>
+    {% for book in books %}
+      <a href="{% url 'libraries:detail' book.pk %}">
+        <li>제목 : {{ book.title }}</li>
+      </a>
+      <hr>
+    {% endfor %}
+  </ul>
+{% endblock content %}
