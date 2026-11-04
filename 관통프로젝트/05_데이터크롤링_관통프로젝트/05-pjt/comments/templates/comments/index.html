@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>주식 댓글 분석 시스템</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .search-box, .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 12px;
+            width: 65%;
+            max-width: 350px;
+        }
+
+        button {
+            padding: 12px 20px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .results {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .card {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        li {
+            margin-bottom: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .error {
+            color: #dc2626;
+        }
+
+        @media (max-width: 800px) {
+            .results {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <div class="search-box">
+        <h1>주식 커뮤니티 댓글 분석</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <input
+                type="text"
+                name="company_name"
+                value="{{ company_name|default:'' }}"
+                placeholder="회사명을 입력하세요"
+            >
+
+            <button type="submit">분석 시작</button>
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
+
+    {% if analysis %}
+
+    <h2>{{ analysis.company_name }} 분석 결과</h2>
+    <p>종목코드: {{ analysis.company_code }}</p>
+
+    <div class="results">
+
+        <div class="card">
+            <h3>원본 댓글</h3>
+            <p>{{ analysis.raw_comments|length }}개</p>
+
+            <ol>
+            {% for comment in analysis.raw_comments %}
+                <li>{{ comment }}</li>
+            {% empty %}
+                <li>댓글 없음</li>
+            {% endfor %}
+            </ol>
+        </div>
+
+        <div class="card">
+            <h3>정제 댓글</h3>
+            <p>{{ analysis.cleaned_comments|length }}개</p>
+
+            <ol>
+            {% for comment in analysis.cleaned_comments %}
+                <li>{{ comment }}</li>
+            {% empty %}
+                <li>댓글 없음</li>
+            {% endfor %}
+            </ol>
+        </div>
+
+        <div class="card">
+            <h3>증강 댓글</h3>
+            <p>{{ analysis.augmented_comments|length }}개</p>
+
+            <ol>
+            {% for comment in analysis.augmented_comments %}
+                <li>{{ comment }}</li>
+            {% empty %}
+                <li>댓글 없음</li>
+            {% endfor %}
+            </ol>
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+</body>
+</html>

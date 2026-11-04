@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1 class="text-center mb-10">메인 페이지</h1>
+    <div class="row">
+      {% for book in books %}
+      <div class="sm:col-6 mb-3 sm:mb-0">
+        <div class="card mb-3" >
+          <div class="card-body d-flex flex-column" style="height: 420px">
+            <h4 class="card-title">{{ book.title}}</h4>
+            <p class="card-text" style="flex: 1; min-height: 0; overflow: hidden;">{{ book.content }}</p>
+            <a href="{% url "books:detail" book.pk %}" class="btn-solid theme-primary mt-auto" style="flex-shrink: 0;">Detail</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+  </div>
+{% endblock content %}

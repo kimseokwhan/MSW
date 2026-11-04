@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>도서 상세 페이지</h1>
+  <p>{{ book.title }}</p>
+  <p>{{ book.content }}</p>
+  <p>{{ book.review }}</p>
+  <p>{{ book.author }}</p>
+  {% comment %} <a href="{% url "books:update" book.pk %}">UPDATE</a>
+  <a href="{% url "books:delete" book.pk %}">DELETE</a> {% endcomment %}
+  <form action="{% url "books:update" book.pk %}" >
+    {% csrf_token %}
+    <input type="submit" value='UPDATE'>
+  </form>
+  <form action="{% url "books:delete" book.pk %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value='DELETE'>
+  </form>
+  <form action="{% url "books:index" %}" >
+    <input type="submit" value='BACK'>
+  </form>
+{% endblock content %}
