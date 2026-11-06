@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">도서 수정</h2>
+<form action="{% url 'books:update' book.pk %}"method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">수정</button>
+    <a href="{% url 'books:detail' book.pk %}" class="btn btn-secondary">취소</a>
+</form>
+{% endblock content %}

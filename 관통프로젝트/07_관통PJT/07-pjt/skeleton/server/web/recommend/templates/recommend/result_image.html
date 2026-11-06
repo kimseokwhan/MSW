@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="panes">
+  <div class="pane">
+    <h3>사용자 입력</h3>
+    <div class="result">{{ result.request_text }}</div>
+    <a class="back" href="{% url 'recommend:image' %}">← 다시 입력</a>
+  </div>
+  <div class="pane">
+    <h3>생성된 표지 이미지</h3>
+    <img class="cover" src="data:image/jpeg;base64,{{ image_base64 }}" alt="생성된 표지 이미지">
+  </div>
+</div>
+{% endblock content %}

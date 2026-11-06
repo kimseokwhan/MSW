@@ -1,0 +1,16 @@
+from books.models import Category
+
+categories = [
+    '소설/시/희곡',
+    '경제/경영',
+    '자기계발',
+    '인문/교양',
+    '취미/실용',
+    '어린이/청소년',
+    '과학',
+]
+
+for name in categories:
+    Category.objects.get_or_create(name=name)
+
+exit()

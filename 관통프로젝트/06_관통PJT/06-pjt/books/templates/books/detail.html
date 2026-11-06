@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">{{ book.title }}</h2>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5>도서 정보</h5>
+        <hr>
+
+        <p> <strong>제목:</strong> {{ book.title }}</p>
+        <p><strong>저자:</strong> {{ book.author }}</p>
+        <p><strong>회원 리뷰 평점:</strong> {{ book.review_score }}</p>
+        <p><strong>설명:</strong></p>
+        <p>{{ book.description|linebreaksbr }}</p>
+        <p><strong>등록자:</strong> <a href="{% url 'accounts:profile' book.user.username %}">{{ book.user.username }}</a></p>
+        <p><strong>카테고리:</strong> {{ book.category|default:"미분류" }}</p>
+        <hr>
+
+        <a href="{% url 'books:index' %}" class="btn btn-secondary">목록</a>
+        {% if request.user == book.user %}
+            <a href="{% url 'books:update' book.pk %}" class="btn btn-primary">수정</a>
+            <form action="{% url 'books:delete' book.pk %}" method="POST" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger" onclick="return confirm('도서를 삭제하시겠습니까?')">삭제</button>
+            </form>
+
+        {% endif %}
+    </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>쓰레드 목록</h3>
+    {% if request.user.is_authenticated %}
+        <a href="{% url 'books:thread_create' book.pk %}" class="btn btn-success"> 쓰레드 작성</a>
+
+    {% endif %}
+</div>
+
+<div class="list-group">
+    {% for thread in threads %}
+        <a href="{% url 'books:thread_detail' thread.pk %}" class="list-group-item list-group-item-action">
+            <div class="d-flex justify-content-between">
+                <h5>{{ thread.title }}</h5>
+                <small>{{ thread.created_at|date:"Y-m-d" }}</small>
+            </div>
+            <small class="text-muted">작성자: {{ thread.user.username }}</small>
+        </a>
+
+    {% empty %}
+        <p>작성된 쓰레드가 없습니다.</p>
+
+    {% endfor %}
+</div>
+{% endblock content %}

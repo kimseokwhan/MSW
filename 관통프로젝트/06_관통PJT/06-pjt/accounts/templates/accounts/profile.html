@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">{{ person.username }}님의 프로필</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        {% if person.profile_image %}
+            <img src="{{ person.profile_image.url }}" alt="프로필 사진" width="150" height="150" class="rounded-circle mb-3" style="object-fit: cover;">
+        {% endif %}
+
+        <h4>{{ person.username }}</h4>
+        <p>이름: {{ person.last_name }}{{ person.first_name }}</p>
+        <p>이메일: {{ person.email }}</p>
+        <p>성별: {{ person.get_gender_display }}</p>
+        <p>나이: {{ person.age|default_if_none:"미입력" }}</p>
+        <p>주간 평균 독서 시간: {{ person.weekly_reading_time }}분</p>
+        <p>연간 독서량: {{ person.yearly_reading_amount }}권</p>
+
+        <h5>선호 카테고리</h5>
+        {% for category in person.favorite_categories.all %}
+            <span class="badge bg-success">{{ category.name }}</span>
+        {% empty %}
+            <p>선택한 카테고리가 없습니다.</p>
+        {% endfor %}
+
+        <hr>
+        <p>팔로워: {{ person.followers.count }}명 | 팔로잉: {{ person.followings.count }}명</p>
+
+        {% if request.user.is_authenticated %}
+            {% if request.user == person %}
+                <a href="{% url 'accounts:update' %}" class="btn btn-primary">회원정보 수정</a>
+                <a href="{% url 'accounts:change_password' %}" class="btn btn-warning">비밀번호 변경</a>
+
+                <form action="{% url 'accounts:delete' %}" method="POST" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('정말 탈퇴하시겠습니까?')">회원탈퇴</button>
+                </form>
+            {% else %}
+                <form action="{% url 'accounts:follow' person.pk %}" method="POST">
+                    {% csrf_token %}
+                    {% if is_following %}
+                        <button type="submit" class="btn btn-secondary">언팔로우</button>
+                    {% else %}
+                        <button type="submit" class="btn btn-primary">팔로우</button>
+                    {% endif %}
+                </form>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+<h3 class="mb-3">작성한 쓰레드</h3>
+
+<div class="list-group">
+    {% for thread in threads %}
+        <a href="{% url 'books:thread_detail' thread.pk %}" class="list-group-item list-group-item-action">
+            <h5>{{ thread.title }}</h5>
+            <small class="text-muted">도서: {{ thread.book.title }}</small>
+        </a>
+    {% empty %}
+        <p>작성한 쓰레드가 없습니다.</p>
+    {% endfor %}
+</div>
+{% endblock content %}

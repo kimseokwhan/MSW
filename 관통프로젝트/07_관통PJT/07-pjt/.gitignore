@@ -1,0 +1,7 @@
+.env
+*.sqlite3
+media/uploads/
+__pycache__/
+*.pyc
+venv/
+.venv/
