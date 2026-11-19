@@ -1,0 +1,15 @@
+# Local credentials and environment copies
+.env*
+!.env.example
+
+# Python environment and caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local SQLite data and sidecar files
+*.sqlite3*
+
+# Supplied specification marked 대외비
+/docs/AI코어프로젝트_3회차_요구사항정의서.pdf

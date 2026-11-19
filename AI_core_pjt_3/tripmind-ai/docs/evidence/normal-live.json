@@ -1,0 +1,573 @@
+{
+  "request": "2026-11-21 경주, 오전 10시부터 오후 6시까지 관광지 3곳 추천해 줘.",
+  "status": "complete",
+  "reply": "1. 경상북도교육청 경주안전체험관 · 경상북도 경주시 안강읍 안현로 1853-12\n2. 경주 감은사지 · 경상북도 경주시 문무대왕면 용당리 17\n3. 경주 경덕왕릉 · 경상북도 경주시 내남면 부지리 산8\n관광지는 현재 카탈로그 기준입니다. 방문일 운영 여부와 개별 방문 시간은 확인이 필요합니다.\n2026-11-21 일별 최대 강수 확률 0%, 최저 -3°C·최고 5°C\n체류와 이동의 합이 여행 시간 480분 이하여야 합니다.\n실제 운영시간과 이동·체류 소요를 확인해야 합니다.",
+  "warnings": [],
+  "events": [
+    {
+      "event_id": "4a1ecc88-3e72-4820-9e7d-98349b662881",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 1,
+      "type": "node_enter",
+      "node": "analyze",
+      "occurred_at": "2026-11-19T02:33:17.648042+00:00",
+      "payload": {}
+    },
+    {
+      "event_id": "c5d3cf8d-3faf-4da3-8e4d-d55fd5bc8cf7",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 2,
+      "type": "llm_decision",
+      "node": "analyze",
+      "occurred_at": "2026-11-19T02:33:19.847627+00:00",
+      "payload": {
+        "intent": "create_plan",
+        "reason": "요청에 명시된 일정(경주, 2026-11-21, 10:00~18:00)과 추천 개수(3곳)에 따라 독립 일정 생성으로 분류"
+      }
+    },
+    {
+      "event_id": "caaeddc4-221a-4d6b-81b2-d3d7a9c9749a",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 3,
+      "type": "conditions_extracted",
+      "node": "analyze",
+      "occurred_at": "2026-11-19T02:33:19.856538+00:00",
+      "payload": {
+        "conditions": {
+          "region": "경주",
+          "date": "2026-11-21",
+          "start_time": "10:00",
+          "end_time": "18:00",
+          "count": 3
+        },
+        "needs_input": false
+      }
+    },
+    {
+      "event_id": "eec5ff90-0dca-43f9-83e4-c118e44e9f87",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 4,
+      "type": "node_exit",
+      "node": "analyze",
+      "occurred_at": "2026-11-19T02:33:19.857522+00:00",
+      "payload": {
+        "ok": true,
+        "duration_ms": 2213
+      }
+    },
+    {
+      "event_id": "dac4d84e-f58d-4332-af4e-c0ec71f2f5b3",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 5,
+      "type": "node_enter",
+      "node": "plan",
+      "occurred_at": "2026-11-19T02:33:19.857522+00:00",
+      "payload": {}
+    },
+    {
+      "event_id": "8bf43ac8-00d3-40d5-81c1-1ee16bffa218",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 6,
+      "type": "plan_created",
+      "node": "plan",
+      "occurred_at": "2026-11-19T02:33:19.857522+00:00",
+      "payload": {
+        "tools": [
+          "search_attractions",
+          "get_weather"
+        ],
+        "detail_dependency": "search_attractions.content_id"
+      }
+    },
+    {
+      "event_id": "78ef4d22-f28f-45f5-88c5-03e5d8951b58",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 7,
+      "type": "node_exit",
+      "node": "plan",
+      "occurred_at": "2026-11-19T02:33:19.874090+00:00",
+      "payload": {
+        "ok": true,
+        "duration_ms": 8
+      }
+    },
+    {
+      "event_id": "23aff769-c639-47ab-8d42-05e35fdb5f18",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 8,
+      "type": "node_enter",
+      "node": "execute",
+      "occurred_at": "2026-11-19T02:33:19.878771+00:00",
+      "payload": {}
+    },
+    {
+      "event_id": "240ab986-2ae8-40ff-a86c-05bb456d1f89",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 9,
+      "type": "tool_requested",
+      "node": "execute",
+      "occurred_at": "2026-11-19T02:33:19.883772+00:00",
+      "payload": {
+        "tool": "search_attractions",
+        "arguments": {
+          "keyword": "경주",
+          "visit_date": "2026-11-21",
+          "page": 1,
+          "content_type_id": "12"
+        }
+      }
+    },
+    {
+      "event_id": "90ff2189-d53b-4675-8c15-51ded6885652",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 10,
+      "type": "tool_completed",
+      "node": "execute",
+      "occurred_at": "2026-11-19T02:33:20.282077+00:00",
+      "payload": {
+        "tool": "search_attractions",
+        "ok": true,
+        "error_code": null,
+        "fields": [
+          "source",
+          "requested_date",
+          "checked_at",
+          "basis",
+          "page",
+          "attractions"
+        ],
+        "result_count": 12,
+        "result": {
+          "content_ids": [
+            "3036201",
+            "128637",
+            "1621597",
+            "319571",
+            "128116",
+            "250268",
+            "128676",
+            "128639",
+            "250270",
+            "2992067",
+            "250274",
+            "126203"
+          ],
+          "basis": "current_catalog"
+        },
+        "duration_ms": 395
+      }
+    },
+    {
+      "event_id": "451f3dd8-cbce-4d52-b539-8d97d622086d",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 11,
+      "type": "tool_requested",
+      "node": "execute",
+      "occurred_at": "2026-11-19T02:33:20.289136+00:00",
+      "payload": {
+        "tool": "get_attraction_detail",
+        "arguments": {
+          "content_id": "3036201"
+        }
+      }
+    },
+    {
+      "event_id": "1d7e0687-155b-41d4-af4e-e7fa2da89189",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 12,
+      "type": "tool_completed",
+      "node": "execute",
+      "occurred_at": "2026-11-19T02:33:20.563273+00:00",
+      "payload": {
+        "tool": "get_attraction_detail",
+        "ok": true,
+        "error_code": null,
+        "fields": [
+          "content_id",
+          "title",
+          "address",
+          "latitude",
+          "longitude",
+          "content_type_id",
+          "category_code",
+          "source",
+          "overview",
+          "homepage"
+        ],
+        "result_count": 0,
+        "result": {
+          "content_id": "3036201",
+          "title": "경상북도교육청 경주안전체험관",
+          "address": "경상북도 경주시 안강읍 안현로 1853-12"
+        },
+        "duration_ms": 272
+      }
+    },
+    {
+      "event_id": "64d6c372-d5e9-4083-b4ea-5e35576ecb21",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 13,
+      "type": "tool_requested",
+      "node": "execute",
+      "occurred_at": "2026-11-19T02:33:20.567391+00:00",
+      "payload": {
+        "tool": "get_attraction_detail",
+        "arguments": {
+          "content_id": "128637"
+        }
+      }
+    },
+    {
+      "event_id": "5064cf48-195c-4416-9be5-82a77875918f",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 14,
+      "type": "tool_completed",
+      "node": "execute",
+      "occurred_at": "2026-11-19T02:33:20.840544+00:00",
+      "payload": {
+        "tool": "get_attraction_detail",
+        "ok": true,
+        "error_code": null,
+        "fields": [
+          "content_id",
+          "title",
+          "address",
+          "latitude",
+          "longitude",
+          "content_type_id",
+          "category_code",
+          "source",
+          "overview",
+          "homepage"
+        ],
+        "result_count": 0,
+        "result": {
+          "content_id": "128637",
+          "title": "경주 감은사지",
+          "address": "경상북도 경주시 문무대왕면 용당리 17"
+        },
+        "duration_ms": 264
+      }
+    },
+    {
+      "event_id": "6c658ea6-24a1-43c8-a03b-dc0f1f4d3c19",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 15,
+      "type": "tool_requested",
+      "node": "execute",
+      "occurred_at": "2026-11-19T02:33:20.846187+00:00",
+      "payload": {
+        "tool": "get_attraction_detail",
+        "arguments": {
+          "content_id": "1621597"
+        }
+      }
+    },
+    {
+      "event_id": "c878597e-d5c0-4096-b8d1-4b1ac8defb79",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 16,
+      "type": "tool_completed",
+      "node": "execute",
+      "occurred_at": "2026-11-19T02:33:21.114940+00:00",
+      "payload": {
+        "tool": "get_attraction_detail",
+        "ok": true,
+        "error_code": null,
+        "fields": [
+          "content_id",
+          "title",
+          "address",
+          "latitude",
+          "longitude",
+          "content_type_id",
+          "category_code",
+          "source",
+          "overview",
+          "homepage"
+        ],
+        "result_count": 0,
+        "result": {
+          "content_id": "1621597",
+          "title": "경주 경덕왕릉",
+          "address": "경상북도 경주시 내남면 부지리 산8"
+        },
+        "duration_ms": 263
+      }
+    },
+    {
+      "event_id": "aa5448dc-f71e-4712-a2bb-7346ff11879e",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 17,
+      "type": "tool_requested",
+      "node": "execute",
+      "occurred_at": "2026-11-19T02:33:21.124978+00:00",
+      "payload": {
+        "tool": "get_attraction_detail",
+        "arguments": {
+          "content_id": "319571"
+        }
+      }
+    },
+    {
+      "event_id": "e6b13ed7-7bff-4c8d-91ef-1cab359bc1aa",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 18,
+      "type": "tool_completed",
+      "node": "execute",
+      "occurred_at": "2026-11-19T02:33:21.391966+00:00",
+      "payload": {
+        "tool": "get_attraction_detail",
+        "ok": true,
+        "error_code": null,
+        "fields": [
+          "content_id",
+          "title",
+          "address",
+          "latitude",
+          "longitude",
+          "content_type_id",
+          "category_code",
+          "source",
+          "overview",
+          "homepage"
+        ],
+        "result_count": 0,
+        "result": {
+          "content_id": "319571",
+          "title": "경주 경애왕릉",
+          "address": "경상북도 경주시 배동 산 73-1"
+        },
+        "duration_ms": 268
+      }
+    },
+    {
+      "event_id": "1a71dd1c-d01f-4761-b1a4-2a8fc0fda335",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 19,
+      "type": "tool_requested",
+      "node": "execute",
+      "occurred_at": "2026-11-19T02:33:21.391966+00:00",
+      "payload": {
+        "tool": "get_attraction_detail",
+        "arguments": {
+          "content_id": "128116"
+        }
+      }
+    },
+    {
+      "event_id": "8ed806a5-610c-4a36-b67d-0efc032f1b1b",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 20,
+      "type": "tool_completed",
+      "node": "execute",
+      "occurred_at": "2026-11-19T02:33:21.670766+00:00",
+      "payload": {
+        "tool": "get_attraction_detail",
+        "ok": true,
+        "error_code": null,
+        "fields": [
+          "content_id",
+          "title",
+          "address",
+          "latitude",
+          "longitude",
+          "content_type_id",
+          "category_code",
+          "source",
+          "overview",
+          "homepage"
+        ],
+        "result_count": 0,
+        "result": {
+          "content_id": "128116",
+          "title": "경주 계림",
+          "address": "경상북도 경주시 교동"
+        },
+        "duration_ms": 264
+      }
+    },
+    {
+      "event_id": "26dc299b-f545-49e4-bbd5-bc0360f888e2",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 21,
+      "type": "tool_requested",
+      "node": "execute",
+      "occurred_at": "2026-11-19T02:33:21.676778+00:00",
+      "payload": {
+        "tool": "get_weather",
+        "arguments": {
+          "latitude": 35.8562,
+          "longitude": 129.2248,
+          "date": "2026-11-21"
+        }
+      }
+    },
+    {
+      "event_id": "639980b5-cb89-4579-843d-4ba955f62a63",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 22,
+      "type": "tool_completed",
+      "node": "execute",
+      "occurred_at": "2026-11-19T02:33:22.813767+00:00",
+      "payload": {
+        "tool": "get_weather",
+        "ok": true,
+        "error_code": null,
+        "fields": [
+          "source",
+          "kind",
+          "date",
+          "timezone",
+          "precipitation_probability_max",
+          "temperature_min_c",
+          "temperature_max_c",
+          "available_from",
+          "available_to"
+        ],
+        "result_count": 0,
+        "result": {
+          "date": "2026-11-21",
+          "precipitation_probability_max": 0,
+          "temperature_min_c": -3,
+          "temperature_max_c": 5
+        },
+        "duration_ms": 1132
+      }
+    },
+    {
+      "event_id": "2b9d138a-0f78-44be-be89-a5588e117c40",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 23,
+      "type": "node_exit",
+      "node": "execute",
+      "occurred_at": "2026-11-19T02:33:22.821229+00:00",
+      "payload": {
+        "ok": true,
+        "duration_ms": 2942
+      }
+    },
+    {
+      "event_id": "61d53c03-3143-4b45-b79e-e0c6f52385a1",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 24,
+      "type": "node_enter",
+      "node": "integrate",
+      "occurred_at": "2026-11-19T02:33:22.827229+00:00",
+      "payload": {}
+    },
+    {
+      "event_id": "cac95cd9-eff8-455f-bd35-c676f9324d00",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 25,
+      "type": "node_exit",
+      "node": "integrate",
+      "occurred_at": "2026-11-19T02:33:22.832227+00:00",
+      "payload": {
+        "ok": true,
+        "duration_ms": 5
+      }
+    },
+    {
+      "event_id": "cd77ca0a-930b-4d75-8ea1-a9f521d7b70a",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 26,
+      "type": "node_enter",
+      "node": "decide",
+      "occurred_at": "2026-11-19T02:33:22.835928+00:00",
+      "payload": {}
+    },
+    {
+      "event_id": "4c16e9b1-d1f5-49a2-9178-f844470f8f09",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 27,
+      "type": "constraints_checked",
+      "node": "decide",
+      "occurred_at": "2026-11-19T02:33:22.840930+00:00",
+      "payload": {
+        "matched": 5,
+        "target": 3,
+        "indoor": false,
+        "replan": false,
+        "infeasible": false
+      }
+    },
+    {
+      "event_id": "a42e1881-646d-483e-8578-52bb0acd3473",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 28,
+      "type": "node_exit",
+      "node": "decide",
+      "occurred_at": "2026-11-19T02:33:22.845974+00:00",
+      "payload": {
+        "ok": true,
+        "duration_ms": 10
+      }
+    },
+    {
+      "event_id": "d0de67a0-cb51-47fe-b07a-4ddcdf50050d",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 29,
+      "type": "node_enter",
+      "node": "respond",
+      "occurred_at": "2026-11-19T02:33:22.851049+00:00",
+      "payload": {}
+    },
+    {
+      "event_id": "18a64503-4a5f-4b22-9b02-52b9c6aecae6",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 30,
+      "type": "node_exit",
+      "node": "respond",
+      "occurred_at": "2026-11-19T02:33:22.855349+00:00",
+      "payload": {
+        "ok": true,
+        "duration_ms": 4
+      }
+    },
+    {
+      "event_id": "9c293336-294b-4ee3-a0e6-6e0ed128854f",
+      "session_id": "7e42a3f0-5079-4ebb-8be2-92156340e367",
+      "run_id": "c028b62a-a004-405a-944e-d7fe42209cf7",
+      "seq": 31,
+      "type": "run_finished",
+      "node": "respond",
+      "occurred_at": "2026-11-19T02:33:22.864415+00:00",
+      "payload": {
+        "status": "complete",
+        "replan_count": 0,
+        "duration_ms": 5220
+      }
+    }
+  ]
+}

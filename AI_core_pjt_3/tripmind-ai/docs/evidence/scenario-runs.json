@@ -1,0 +1,2086 @@
+[
+  {
+    "case": "normal",
+    "fixture": true,
+    "request": "경주 10~18시 관광지 1곳",
+    "expected": "complete",
+    "actual": "complete",
+    "reply": "1. 시험 장소 · 경상북도 경주시 양정로\n관광지는 현재 카탈로그 기준입니다. 방문일 운영 여부와 개별 방문 시간은 확인이 필요합니다.\n2026-11-21 일별 최대 강수 확률 10%, 최저 1°C·최고 12°C\n체류와 이동의 합이 여행 시간 480분 이하여야 합니다.\n실제 운영시간과 이동·체류 소요를 확인해야 합니다.",
+    "warnings": [],
+    "events": [
+      {
+        "event_id": "46a68dac-d1a0-4a7e-ada1-c5696949c9a2",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 1,
+        "type": "node_enter",
+        "node": "analyze",
+        "occurred_at": "2026-11-19T02:30:08.826274+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "39670ce3-08c2-4643-8da4-71ecbbdf462e",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 2,
+        "type": "llm_decision",
+        "node": "analyze",
+        "occurred_at": "2026-11-19T02:30:08.830910+00:00",
+        "payload": {
+          "intent": "create_plan",
+          "reason": "사용자가 요청한 여행 조건을 추출했습니다."
+        }
+      },
+      {
+        "event_id": "cb228047-6a1f-47fb-b267-1110a15c473a",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 3,
+        "type": "conditions_extracted",
+        "node": "analyze",
+        "occurred_at": "2026-11-19T02:30:08.834423+00:00",
+        "payload": {
+          "conditions": {
+            "region": "경주",
+            "date": "2026-11-21",
+            "start_time": "10:00",
+            "end_time": "18:00",
+            "count": 1
+          },
+          "needs_input": false
+        }
+      },
+      {
+        "event_id": "8b9873a9-10cb-46c8-b00a-0d7bdd697c9c",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 4,
+        "type": "node_exit",
+        "node": "analyze",
+        "occurred_at": "2026-11-19T02:30:08.834423+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 13
+        }
+      },
+      {
+        "event_id": "c5339f79-522b-44a0-bbaa-6d343f423160",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 5,
+        "type": "node_enter",
+        "node": "plan",
+        "occurred_at": "2026-11-19T02:30:08.834423+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "764a0589-937a-46b9-bf9c-ffe08367bca4",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 6,
+        "type": "plan_created",
+        "node": "plan",
+        "occurred_at": "2026-11-19T02:30:08.834423+00:00",
+        "payload": {
+          "tools": [
+            "search_attractions",
+            "get_weather"
+          ],
+          "detail_dependency": "search_attractions.content_id"
+        }
+      },
+      {
+        "event_id": "3ab0837c-fcf9-48b7-ab0a-ba6d1350c68f",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 7,
+        "type": "node_exit",
+        "node": "plan",
+        "occurred_at": "2026-11-19T02:30:08.852932+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 9
+        }
+      },
+      {
+        "event_id": "969e03f4-5e0e-4b71-809d-a1676dae0a9d",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 8,
+        "type": "node_enter",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:08.857932+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "67882bbc-7ae7-44ea-a43e-3df4a4bddef2",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 9,
+        "type": "tool_requested",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:08.861932+00:00",
+        "payload": {
+          "tool": "search_attractions",
+          "arguments": {
+            "keyword": "경주",
+            "visit_date": "2026-11-21",
+            "page": 1,
+            "content_type_id": "12"
+          }
+        }
+      },
+      {
+        "event_id": "a4405112-eb90-463e-82d0-52b77c15f8fb",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 10,
+        "type": "tool_completed",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:08.866931+00:00",
+        "payload": {
+          "tool": "search_attractions",
+          "ok": true,
+          "error_code": null,
+          "fields": [
+            "attractions"
+          ],
+          "result_count": 1,
+          "duration_ms": 0
+        }
+      },
+      {
+        "event_id": "805f5c40-898d-4e5b-a2d3-b57c2165966f",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 11,
+        "type": "tool_requested",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:08.867794+00:00",
+        "payload": {
+          "tool": "get_attraction_detail",
+          "arguments": {
+            "content_id": "121"
+          }
+        }
+      },
+      {
+        "event_id": "88a9c814-4603-460a-bfb6-27ae2c966ae6",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 12,
+        "type": "tool_completed",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:08.867794+00:00",
+        "payload": {
+          "tool": "get_attraction_detail",
+          "ok": true,
+          "error_code": null,
+          "fields": [
+            "overview"
+          ],
+          "result_count": 0,
+          "duration_ms": 0
+        }
+      },
+      {
+        "event_id": "91dacc5b-c89d-4f21-b780-0c050ba9b76d",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 13,
+        "type": "tool_requested",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:08.867794+00:00",
+        "payload": {
+          "tool": "get_weather",
+          "arguments": {
+            "latitude": 35.8562,
+            "longitude": 129.2248,
+            "date": "2026-11-21"
+          }
+        }
+      },
+      {
+        "event_id": "5b489146-6d0a-4bdd-8313-1a1df4ae15e7",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 14,
+        "type": "tool_completed",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:08.884091+00:00",
+        "payload": {
+          "tool": "get_weather",
+          "ok": true,
+          "error_code": null,
+          "fields": [
+            "date",
+            "precipitation_probability_max",
+            "temperature_min_c",
+            "temperature_max_c"
+          ],
+          "result_count": 0,
+          "duration_ms": 0
+        }
+      },
+      {
+        "event_id": "994de81f-3234-4f4d-862a-1c564eab69ea",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 15,
+        "type": "node_exit",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:08.887132+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 30
+        }
+      },
+      {
+        "event_id": "75d36394-cf65-42a3-96e8-417456aff2d2",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 16,
+        "type": "node_enter",
+        "node": "integrate",
+        "occurred_at": "2026-11-19T02:30:08.887132+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "1235155e-a1d0-4803-8140-eb555021204a",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 17,
+        "type": "node_exit",
+        "node": "integrate",
+        "occurred_at": "2026-11-19T02:30:08.887132+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 4
+        }
+      },
+      {
+        "event_id": "249aba85-bfc1-465d-a00c-58200a40b5f7",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 18,
+        "type": "node_enter",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:08.901090+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "499d49a4-e6ce-449c-b1f6-d546266788d5",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 19,
+        "type": "constraints_checked",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:08.901090+00:00",
+        "payload": {
+          "matched": 1,
+          "target": 1,
+          "indoor": false,
+          "replan": false,
+          "infeasible": false
+        }
+      },
+      {
+        "event_id": "eb134a62-8db8-4161-abcb-9cd612cbd8bd",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 20,
+        "type": "node_exit",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:08.901090+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 9
+        }
+      },
+      {
+        "event_id": "b2c00a39-9cf5-40ad-b1d8-c399a6a8e482",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 21,
+        "type": "node_enter",
+        "node": "respond",
+        "occurred_at": "2026-11-19T02:30:08.901090+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "dd27833d-332a-464a-9baf-74a978f348fa",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 22,
+        "type": "node_exit",
+        "node": "respond",
+        "occurred_at": "2026-11-19T02:30:08.920030+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 5
+        }
+      },
+      {
+        "event_id": "ed4c7f2a-759a-4c60-8b82-620f7b99bd2e",
+        "session_id": "618e4200-d064-44bf-8049-6f7e2115e737",
+        "run_id": "71cbc738-49d6-4d75-bad5-0a1df2e31fe9",
+        "seq": 23,
+        "type": "run_finished",
+        "node": "respond",
+        "occurred_at": "2026-11-19T02:30:08.929029+00:00",
+        "payload": {
+          "status": "complete",
+          "replan_count": 0,
+          "duration_ms": 106
+        }
+      }
+    ]
+  },
+  {
+    "case": "rain-replan",
+    "fixture": true,
+    "request": "경주 10~18시, 비가 오면 실내로",
+    "expected": "complete",
+    "actual": "complete",
+    "reply": "1. 시험 장소 · 경상북도 경주시 양정로\n관광지는 현재 카탈로그 기준입니다. 방문일 운영 여부와 개별 방문 시간은 확인이 필요합니다.\n2026-11-21 일별 최대 강수 확률 80%, 최저 1°C·최고 12°C\n체류와 이동의 합이 여행 시간 480분 이하여야 합니다.\n실제 운영시간과 이동·체류 소요를 확인해야 합니다.\n일별 최대 강수 확률 50% 이상이면 실내 후보를 탐색합니다.\n제외 후보 · 시험 장소 · 실내 방문 근거 부족",
+    "warnings": [],
+    "events": [
+      {
+        "event_id": "e9f65ba4-0f2a-4c84-a305-7e7e4f856bdb",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 1,
+        "type": "node_enter",
+        "node": "analyze",
+        "occurred_at": "2026-11-19T02:30:08.961561+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "4f670eb3-845b-4bb7-8a3f-59831dab80e5",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 2,
+        "type": "llm_decision",
+        "node": "analyze",
+        "occurred_at": "2026-11-19T02:30:08.966561+00:00",
+        "payload": {
+          "intent": "create_plan",
+          "reason": "사용자가 요청한 여행 조건을 추출했습니다."
+        }
+      },
+      {
+        "event_id": "1650f8f7-c836-4800-932a-cb1ce7b91172",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 3,
+        "type": "conditions_extracted",
+        "node": "analyze",
+        "occurred_at": "2026-11-19T02:30:08.967814+00:00",
+        "payload": {
+          "conditions": {
+            "region": "경주",
+            "date": "2026-11-21",
+            "start_time": "10:00",
+            "end_time": "18:00",
+            "count": 1,
+            "rain_indoor": true
+          },
+          "needs_input": false
+        }
+      },
+      {
+        "event_id": "eb453198-2474-47f4-b4e5-242aec21c149",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 4,
+        "type": "node_exit",
+        "node": "analyze",
+        "occurred_at": "2026-11-19T02:30:08.967814+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 14
+        }
+      },
+      {
+        "event_id": "255b2ea7-ed4f-4608-95b2-5dbedab95a04",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 5,
+        "type": "node_enter",
+        "node": "plan",
+        "occurred_at": "2026-11-19T02:30:08.987234+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "9f877ce8-1cff-422e-a1b4-b21bc700eaf3",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 6,
+        "type": "plan_created",
+        "node": "plan",
+        "occurred_at": "2026-11-19T02:30:08.987234+00:00",
+        "payload": {
+          "tools": [
+            "search_attractions",
+            "get_weather"
+          ],
+          "detail_dependency": "search_attractions.content_id"
+        }
+      },
+      {
+        "event_id": "a39bc692-0605-4b7f-82ee-3fcbc7fd759a",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 7,
+        "type": "node_exit",
+        "node": "plan",
+        "occurred_at": "2026-11-19T02:30:08.987234+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 8
+        }
+      },
+      {
+        "event_id": "a2a5ab68-6602-4435-8384-83ac602d681c",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 8,
+        "type": "node_enter",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.001239+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "01065dd6-2c66-4772-b295-9541fa3de042",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 9,
+        "type": "tool_requested",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.001239+00:00",
+        "payload": {
+          "tool": "search_attractions",
+          "arguments": {
+            "keyword": "경주",
+            "visit_date": "2026-11-21",
+            "page": 1,
+            "content_type_id": "12"
+          }
+        }
+      },
+      {
+        "event_id": "a7b636a0-e4f2-4b68-ae3d-6e0dd27e393b",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 10,
+        "type": "tool_completed",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.001239+00:00",
+        "payload": {
+          "tool": "search_attractions",
+          "ok": true,
+          "error_code": null,
+          "fields": [
+            "attractions"
+          ],
+          "result_count": 1,
+          "duration_ms": 0
+        }
+      },
+      {
+        "event_id": "f3d5f45b-52db-41d2-920f-5f37f0053075",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 11,
+        "type": "tool_requested",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.020675+00:00",
+        "payload": {
+          "tool": "get_attraction_detail",
+          "arguments": {
+            "content_id": "121"
+          }
+        }
+      },
+      {
+        "event_id": "9fa7be54-6a9b-4ab5-9277-f0189b932513",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 12,
+        "type": "tool_completed",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.024675+00:00",
+        "payload": {
+          "tool": "get_attraction_detail",
+          "ok": true,
+          "error_code": null,
+          "fields": [
+            "overview"
+          ],
+          "result_count": 0,
+          "duration_ms": 0
+        }
+      },
+      {
+        "event_id": "6ea48c3f-36e7-478a-aab7-a77c1b73d4a5",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 13,
+        "type": "tool_requested",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.029025+00:00",
+        "payload": {
+          "tool": "get_weather",
+          "arguments": {
+            "latitude": 35.8562,
+            "longitude": 129.2248,
+            "date": "2026-11-21"
+          }
+        }
+      },
+      {
+        "event_id": "3ba234de-22e8-4ac2-a39c-593bf662b8ee",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 14,
+        "type": "tool_completed",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.034026+00:00",
+        "payload": {
+          "tool": "get_weather",
+          "ok": true,
+          "error_code": null,
+          "fields": [
+            "date",
+            "precipitation_probability_max",
+            "temperature_min_c",
+            "temperature_max_c"
+          ],
+          "result_count": 0,
+          "duration_ms": 0
+        }
+      },
+      {
+        "event_id": "37575f35-e0b4-4f7d-ad54-984fc9fb4cc3",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 15,
+        "type": "node_exit",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.034712+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 36
+        }
+      },
+      {
+        "event_id": "8d0e9369-61b8-4c24-98c0-e30369985bc0",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 16,
+        "type": "node_enter",
+        "node": "integrate",
+        "occurred_at": "2026-11-19T02:30:09.034712+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "9573b0ea-0ec9-409a-a9d2-b9cfef11223c",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 17,
+        "type": "node_exit",
+        "node": "integrate",
+        "occurred_at": "2026-11-19T02:30:09.034712+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 4
+        }
+      },
+      {
+        "event_id": "1c8ece7b-3f3f-450d-8014-488a66180dcf",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 18,
+        "type": "node_enter",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.052079+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "53e5898f-a6e1-4062-ae05-44f3067a3e21",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 19,
+        "type": "constraints_checked",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.056380+00:00",
+        "payload": {
+          "matched": 0,
+          "target": 1,
+          "indoor": true,
+          "replan": true,
+          "infeasible": false
+        }
+      },
+      {
+        "event_id": "ecb0e9c4-0b50-4d17-b550-27bc8f270668",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 20,
+        "type": "node_exit",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.060379+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 9
+        }
+      },
+      {
+        "event_id": "4bb3d53e-722b-4cd7-bc0d-79cd6a65d155",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 21,
+        "type": "node_enter",
+        "node": "replan",
+        "occurred_at": "2026-11-19T02:30:09.064379+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "f0dddbf6-9637-4873-9a2c-c3b57f56e0e4",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 22,
+        "type": "replanned",
+        "node": "replan",
+        "occurred_at": "2026-11-19T02:30:09.067932+00:00",
+        "payload": {
+          "count": 1,
+          "reason": "제약에 맞는 후보 수 부족",
+          "tools": [
+            "search_attractions"
+          ],
+          "cached_results": 3
+        }
+      },
+      {
+        "event_id": "693d4a3b-456a-4a07-9000-9b270fa877b6",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 23,
+        "type": "node_exit",
+        "node": "replan",
+        "occurred_at": "2026-11-19T02:30:09.067932+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 9
+        }
+      },
+      {
+        "event_id": "ae0c3b6d-4238-4643-9878-e85448ee1875",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 24,
+        "type": "node_enter",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.067932+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "6c096872-dce5-4e6c-ba72-541b5ceff5f9",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 25,
+        "type": "tool_requested",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.067932+00:00",
+        "payload": {
+          "tool": "search_attractions",
+          "arguments": {
+            "keyword": "경주",
+            "visit_date": "2026-11-21",
+            "page": 1,
+            "content_type_id": "14"
+          }
+        }
+      },
+      {
+        "event_id": "8b47b102-e6a0-4c6a-a498-3a94e72af75e",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 26,
+        "type": "tool_completed",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.087339+00:00",
+        "payload": {
+          "tool": "search_attractions",
+          "ok": true,
+          "error_code": null,
+          "fields": [
+            "attractions"
+          ],
+          "result_count": 1,
+          "duration_ms": 0
+        }
+      },
+      {
+        "event_id": "d0aaba80-e67d-42c1-83b1-295768e9f348",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 27,
+        "type": "tool_requested",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.087339+00:00",
+        "payload": {
+          "tool": "get_attraction_detail",
+          "arguments": {
+            "content_id": "141"
+          }
+        }
+      },
+      {
+        "event_id": "1968d15f-f4c6-4572-b3cd-f4a765184404",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 28,
+        "type": "tool_completed",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.087339+00:00",
+        "payload": {
+          "tool": "get_attraction_detail",
+          "ok": true,
+          "error_code": null,
+          "fields": [
+            "overview"
+          ],
+          "result_count": 0,
+          "duration_ms": 0
+        }
+      },
+      {
+        "event_id": "4890e487-bad9-4301-b048-912e8bbaf227",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 29,
+        "type": "node_exit",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.101193+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 27
+        }
+      },
+      {
+        "event_id": "d35a35b8-70b1-4ec1-9ad9-7a7cccb05fe7",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 30,
+        "type": "node_enter",
+        "node": "integrate",
+        "occurred_at": "2026-11-19T02:30:09.101193+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "5538e1b7-10b6-4d4e-96f9-a7982ac8b68b",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 31,
+        "type": "node_exit",
+        "node": "integrate",
+        "occurred_at": "2026-11-19T02:30:09.117556+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 6
+        }
+      },
+      {
+        "event_id": "5aa3e783-f1eb-45a3-ba5e-0257c809a577",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 32,
+        "type": "node_enter",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.122559+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "81bfda4f-8d5f-446d-b9aa-11f23e446acb",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 33,
+        "type": "constraints_checked",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.127559+00:00",
+        "payload": {
+          "matched": 1,
+          "target": 1,
+          "indoor": true,
+          "replan": false,
+          "infeasible": false
+        }
+      },
+      {
+        "event_id": "3b642e69-b0f7-475b-b207-0312d2f0aa3d",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 34,
+        "type": "node_exit",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.132559+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 10
+        }
+      },
+      {
+        "event_id": "dfbf1b0e-c791-46a5-bdfd-2078bc858565",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 35,
+        "type": "node_enter",
+        "node": "respond",
+        "occurred_at": "2026-11-19T02:30:09.134560+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "2c218fa1-28a7-44e4-ae6b-83c4ef6be8db",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 36,
+        "type": "node_exit",
+        "node": "respond",
+        "occurred_at": "2026-11-19T02:30:09.134560+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 6
+        }
+      },
+      {
+        "event_id": "d63665a5-392d-4d11-8007-e6df35c55561",
+        "session_id": "d1127dda-bd5b-42bb-9cd2-a2e0843c7888",
+        "run_id": "418f3d80-bd35-4794-9058-2d9d3ec205b8",
+        "seq": 37,
+        "type": "run_finished",
+        "node": "respond",
+        "occurred_at": "2026-11-19T02:30:09.155955+00:00",
+        "payload": {
+          "status": "complete",
+          "replan_count": 1,
+          "duration_ms": 196
+        }
+      }
+    ]
+  },
+  {
+    "case": "cap",
+    "fixture": true,
+    "request": "경주 10~18시 실내 시설 5곳",
+    "expected": "partial",
+    "actual": "partial",
+    "reply": "2026-11-21 일별 최대 강수 확률 10%, 최저 1°C·최고 12°C\n체류와 이동의 합이 여행 시간 480분 이하여야 합니다.\n실제 운영시간과 이동·체류 소요를 확인해야 합니다.\n재계획을 3회 수행했습니다. 장소 수나 분류 조건을 조정하면 다시 탐색할 수 있습니다.",
+    "warnings": [
+      {
+        "code": "NO_RESULT",
+        "message": "조회 가능한 데이터가 없습니다.",
+        "tool": "search_attractions"
+      },
+      {
+        "code": "NO_RESULT",
+        "message": "조회 가능한 데이터가 없습니다.",
+        "tool": "search_attractions"
+      },
+      {
+        "code": "NO_RESULT",
+        "message": "조회 가능한 데이터가 없습니다.",
+        "tool": "search_attractions"
+      },
+      {
+        "code": "NO_RESULT",
+        "message": "조회 가능한 데이터가 없습니다.",
+        "tool": "search_attractions"
+      }
+    ],
+    "events": [
+      {
+        "event_id": "9fe72fca-ba1a-4248-8746-766e8eb88e81",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 1,
+        "type": "node_enter",
+        "node": "analyze",
+        "occurred_at": "2026-11-19T02:30:09.187347+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "e1e2a805-ac2c-4860-9fe2-be9fd2db3e80",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 2,
+        "type": "llm_decision",
+        "node": "analyze",
+        "occurred_at": "2026-11-19T02:30:09.187347+00:00",
+        "payload": {
+          "intent": "create_plan",
+          "reason": "사용자가 요청한 여행 조건을 추출했습니다."
+        }
+      },
+      {
+        "event_id": "035c7eda-ea68-43f6-ac92-cd8acaadf1e7",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 3,
+        "type": "conditions_extracted",
+        "node": "analyze",
+        "occurred_at": "2026-11-19T02:30:09.187347+00:00",
+        "payload": {
+          "conditions": {
+            "region": "경주",
+            "date": "2026-11-21",
+            "start_time": "10:00",
+            "end_time": "18:00",
+            "count": 5,
+            "category": "indoor"
+          },
+          "needs_input": false
+        }
+      },
+      {
+        "event_id": "3f598291-998b-43be-8361-91c8ea285749",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 4,
+        "type": "node_exit",
+        "node": "analyze",
+        "occurred_at": "2026-11-19T02:30:09.201309+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 13
+        }
+      },
+      {
+        "event_id": "130de035-bb67-47ad-b8c4-66dbea9b5e32",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 5,
+        "type": "node_enter",
+        "node": "plan",
+        "occurred_at": "2026-11-19T02:30:09.201309+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "b8d6f6c4-c56f-4882-8303-a4e5fa5e633d",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 6,
+        "type": "plan_created",
+        "node": "plan",
+        "occurred_at": "2026-11-19T02:30:09.201309+00:00",
+        "payload": {
+          "tools": [
+            "search_attractions",
+            "get_weather"
+          ],
+          "detail_dependency": "search_attractions.content_id"
+        }
+      },
+      {
+        "event_id": "a534b529-1859-426b-ab5f-fd472c4add36",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 7,
+        "type": "node_exit",
+        "node": "plan",
+        "occurred_at": "2026-11-19T02:30:09.201309+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 8
+        }
+      },
+      {
+        "event_id": "4d2b3bc9-78c4-4639-b410-077d34c1c368",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 8,
+        "type": "node_enter",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.219729+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "86f1158a-5646-4ffa-8c48-a7a6bceb0a97",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 9,
+        "type": "tool_requested",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.223729+00:00",
+        "payload": {
+          "tool": "search_attractions",
+          "arguments": {
+            "keyword": "경주",
+            "visit_date": "2026-11-21",
+            "page": 1,
+            "content_type_id": "14"
+          }
+        }
+      },
+      {
+        "event_id": "7003491c-47d4-48d3-9e21-9a613fdaafb9",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 10,
+        "type": "tool_completed",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.227729+00:00",
+        "payload": {
+          "tool": "search_attractions",
+          "ok": false,
+          "error_code": "NO_RESULT",
+          "fields": [],
+          "result_count": 0,
+          "duration_ms": 0
+        }
+      },
+      {
+        "event_id": "48a9f482-0d8e-4046-88ef-89c872274ffe",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 11,
+        "type": "tool_requested",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.232208+00:00",
+        "payload": {
+          "tool": "get_weather",
+          "arguments": {
+            "latitude": 35.8562,
+            "longitude": 129.2248,
+            "date": "2026-11-21"
+          }
+        }
+      },
+      {
+        "event_id": "f7576b55-8d64-4e5b-a44b-e37135cf9f19",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 12,
+        "type": "tool_completed",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.234533+00:00",
+        "payload": {
+          "tool": "get_weather",
+          "ok": true,
+          "error_code": null,
+          "fields": [
+            "date",
+            "precipitation_probability_max",
+            "temperature_min_c",
+            "temperature_max_c"
+          ],
+          "result_count": 0,
+          "duration_ms": 0
+        }
+      },
+      {
+        "event_id": "bce8def9-1d56-4102-9593-a0e5ece36494",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 13,
+        "type": "node_exit",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.234533+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 21
+        }
+      },
+      {
+        "event_id": "73db4581-2cf2-41e7-a2ad-a30c26cb5efc",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 14,
+        "type": "node_enter",
+        "node": "integrate",
+        "occurred_at": "2026-11-19T02:30:09.234533+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "8ac5ce1e-2750-4b61-bbe4-9d96076b603a",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 15,
+        "type": "node_exit",
+        "node": "integrate",
+        "occurred_at": "2026-11-19T02:30:09.250195+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 4
+        }
+      },
+      {
+        "event_id": "7c40d5ff-8b42-48e2-9bdc-ae86b4824063",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 16,
+        "type": "node_enter",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.255147+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "4dbdaad1-5266-4b95-a73a-b250d19016af",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 17,
+        "type": "constraints_checked",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.259145+00:00",
+        "payload": {
+          "matched": 0,
+          "target": 5,
+          "indoor": true,
+          "replan": true,
+          "infeasible": false
+        }
+      },
+      {
+        "event_id": "71ce02f5-c5e6-4163-8cb9-0be950f8db01",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 18,
+        "type": "node_exit",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.263145+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 8
+        }
+      },
+      {
+        "event_id": "932a698e-21a5-49c4-9410-ebeacc2f53ed",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 19,
+        "type": "node_enter",
+        "node": "replan",
+        "occurred_at": "2026-11-19T02:30:09.268263+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "26025c2e-eb82-4c74-946f-c6113ea74cd7",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 20,
+        "type": "replanned",
+        "node": "replan",
+        "occurred_at": "2026-11-19T02:30:09.268263+00:00",
+        "payload": {
+          "count": 1,
+          "reason": "제약에 맞는 후보 수 부족",
+          "tools": [
+            "search_attractions"
+          ],
+          "cached_results": 2
+        }
+      },
+      {
+        "event_id": "bf2e3c65-e8a3-4b86-9fd7-d8d3065b2ffb",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 21,
+        "type": "node_exit",
+        "node": "replan",
+        "occurred_at": "2026-11-19T02:30:09.268263+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 9
+        }
+      },
+      {
+        "event_id": "af5755a6-3372-42c7-8767-db7626f947f5",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 22,
+        "type": "node_enter",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.268263+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "0cdeb307-43e3-482b-b675-ca0a8e770b2e",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 23,
+        "type": "tool_requested",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.284717+00:00",
+        "payload": {
+          "tool": "search_attractions",
+          "arguments": {
+            "keyword": "경주",
+            "visit_date": "2026-11-21",
+            "page": 2,
+            "content_type_id": "14"
+          }
+        }
+      },
+      {
+        "event_id": "ae5d01e0-5bf9-4026-a98e-3b5a496c5f3b",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 24,
+        "type": "tool_completed",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.287480+00:00",
+        "payload": {
+          "tool": "search_attractions",
+          "ok": false,
+          "error_code": "NO_RESULT",
+          "fields": [],
+          "result_count": 0,
+          "duration_ms": 0
+        }
+      },
+      {
+        "event_id": "f2bf64cd-ceb1-4b29-8853-684cf8b927a3",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 25,
+        "type": "node_exit",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.287480+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 13
+        }
+      },
+      {
+        "event_id": "a6140973-9f86-4bca-9638-9833dc920b70",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 26,
+        "type": "node_enter",
+        "node": "integrate",
+        "occurred_at": "2026-11-19T02:30:09.287480+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "dcca8bb4-7a05-4b0b-b6df-d5b097a030e1",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 27,
+        "type": "node_exit",
+        "node": "integrate",
+        "occurred_at": "2026-11-19T02:30:09.301531+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 5
+        }
+      },
+      {
+        "event_id": "bf1e2a0b-e598-43dc-9173-4b445afb981a",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 28,
+        "type": "node_enter",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.301531+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "282f70e3-7f0a-4c82-aa64-ad764bfa6ef9",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 29,
+        "type": "constraints_checked",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.301531+00:00",
+        "payload": {
+          "matched": 0,
+          "target": 5,
+          "indoor": true,
+          "replan": true,
+          "infeasible": false
+        }
+      },
+      {
+        "event_id": "bcd305e3-925d-48ae-b21d-1fac3b56604c",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 30,
+        "type": "node_exit",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.317103+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 8
+        }
+      },
+      {
+        "event_id": "2883384e-d9b7-4e6d-a001-421748f40137",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 31,
+        "type": "node_enter",
+        "node": "replan",
+        "occurred_at": "2026-11-19T02:30:09.322146+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "f5f25506-0ceb-4ef3-a950-64e090ca0f5a",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 32,
+        "type": "replanned",
+        "node": "replan",
+        "occurred_at": "2026-11-19T02:30:09.326144+00:00",
+        "payload": {
+          "count": 2,
+          "reason": "제약에 맞는 후보 수 부족",
+          "tools": [
+            "search_attractions"
+          ],
+          "cached_results": 3
+        }
+      },
+      {
+        "event_id": "8436ff00-186e-466b-af4d-32d7e89dea31",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 33,
+        "type": "node_exit",
+        "node": "replan",
+        "occurred_at": "2026-11-19T02:30:09.330144+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 8
+        }
+      },
+      {
+        "event_id": "7aa61f3c-e61c-4653-abb9-7cc3797c7d2b",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 34,
+        "type": "node_enter",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.334864+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "19b2df9d-af62-4872-8d36-38f139957fd9",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 35,
+        "type": "tool_requested",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.334864+00:00",
+        "payload": {
+          "tool": "search_attractions",
+          "arguments": {
+            "keyword": "경주",
+            "visit_date": "2026-11-21",
+            "page": 3,
+            "content_type_id": "14"
+          }
+        }
+      },
+      {
+        "event_id": "ffc45dc7-6b33-4bc7-ae42-bf49da3dfb52",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 36,
+        "type": "tool_completed",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.334864+00:00",
+        "payload": {
+          "tool": "search_attractions",
+          "ok": false,
+          "error_code": "NO_RESULT",
+          "fields": [],
+          "result_count": 0,
+          "duration_ms": 0
+        }
+      },
+      {
+        "event_id": "a1499078-266c-4226-b801-00a9be0cc60f",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 37,
+        "type": "node_exit",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.334864+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 13
+        }
+      },
+      {
+        "event_id": "bae878cc-4c0b-4612-a4bb-8ee9ef77a5c3",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 38,
+        "type": "node_enter",
+        "node": "integrate",
+        "occurred_at": "2026-11-19T02:30:09.353213+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "e713d7bc-10da-4804-8d20-e496c0efeedf",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 39,
+        "type": "node_exit",
+        "node": "integrate",
+        "occurred_at": "2026-11-19T02:30:09.357211+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 4
+        }
+      },
+      {
+        "event_id": "461b9baf-6fdc-4368-9375-e31fc671a927",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 40,
+        "type": "node_enter",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.361211+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "4d95ca9b-14df-44de-a743-5619d1ddcfe9",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 41,
+        "type": "constraints_checked",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.366211+00:00",
+        "payload": {
+          "matched": 0,
+          "target": 5,
+          "indoor": true,
+          "replan": true,
+          "infeasible": false
+        }
+      },
+      {
+        "event_id": "2bba7e2f-b0d3-4254-8842-242b027c2f5d",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 42,
+        "type": "node_exit",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.368045+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 10
+        }
+      },
+      {
+        "event_id": "f6c86054-4d89-44b6-88c7-5079e6537bab",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 43,
+        "type": "node_enter",
+        "node": "replan",
+        "occurred_at": "2026-11-19T02:30:09.368045+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "0807a27e-ccda-4d78-b4fb-c1a572164934",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 44,
+        "type": "replanned",
+        "node": "replan",
+        "occurred_at": "2026-11-19T02:30:09.368045+00:00",
+        "payload": {
+          "count": 3,
+          "reason": "제약에 맞는 후보 수 부족",
+          "tools": [
+            "search_attractions"
+          ],
+          "cached_results": 4
+        }
+      },
+      {
+        "event_id": "81f41ad0-5eb7-4947-9bca-50faec294358",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 45,
+        "type": "node_exit",
+        "node": "replan",
+        "occurred_at": "2026-11-19T02:30:09.384885+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 9
+        }
+      },
+      {
+        "event_id": "9f5213d1-899e-4904-bc25-c99a029a1e9c",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 46,
+        "type": "node_enter",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.387633+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "c3ff0a14-f822-41ce-b987-78f1b6716bd5",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 47,
+        "type": "tool_requested",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.387633+00:00",
+        "payload": {
+          "tool": "search_attractions",
+          "arguments": {
+            "keyword": "경주",
+            "visit_date": "2026-11-21",
+            "page": 4,
+            "content_type_id": "14"
+          }
+        }
+      },
+      {
+        "event_id": "dbb6eabf-8d86-46c2-bf00-31df59b87c29",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 48,
+        "type": "tool_completed",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.401486+00:00",
+        "payload": {
+          "tool": "search_attractions",
+          "ok": false,
+          "error_code": "NO_RESULT",
+          "fields": [],
+          "result_count": 0,
+          "duration_ms": 0
+        }
+      },
+      {
+        "event_id": "69c9b92a-266a-4d57-b007-8aed506725f3",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 49,
+        "type": "node_exit",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.401486+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 18
+        }
+      },
+      {
+        "event_id": "628052bc-9b57-4062-ab6c-81a54cc5da0f",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 50,
+        "type": "node_enter",
+        "node": "integrate",
+        "occurred_at": "2026-11-19T02:30:09.401486+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "e4171eb1-307f-4b18-9773-75a22479a065",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 51,
+        "type": "node_exit",
+        "node": "integrate",
+        "occurred_at": "2026-11-19T02:30:09.420061+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 6
+        }
+      },
+      {
+        "event_id": "825bfbbb-f690-497b-b4fb-42804324b3a5",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 52,
+        "type": "node_enter",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.425061+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "8ef46a7e-b17c-4765-ae6b-f93fbae621ff",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 53,
+        "type": "constraints_checked",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.431061+00:00",
+        "payload": {
+          "matched": 0,
+          "target": 5,
+          "indoor": true,
+          "replan": false,
+          "infeasible": false
+        }
+      },
+      {
+        "event_id": "220c6135-0066-401e-b236-2dd424c049b7",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 54,
+        "type": "node_exit",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.434662+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 10
+        }
+      },
+      {
+        "event_id": "b811e7f9-d192-4247-a28f-98fcde58e9c7",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 55,
+        "type": "node_enter",
+        "node": "respond",
+        "occurred_at": "2026-11-19T02:30:09.434662+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "e15dc096-33ba-4dff-bef2-e54755ba421c",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 56,
+        "type": "node_exit",
+        "node": "respond",
+        "occurred_at": "2026-11-19T02:30:09.434662+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 4
+        }
+      },
+      {
+        "event_id": "a6dbf9a1-d9da-47d3-bd1b-7b55beff8c9c",
+        "session_id": "8d05d592-635a-4a78-8b54-bde143d8c3df",
+        "run_id": "4c8cab97-212c-4917-bfad-e76351cce013",
+        "seq": 57,
+        "type": "run_finished",
+        "node": "respond",
+        "occurred_at": "2026-11-19T02:30:09.453128+00:00",
+        "payload": {
+          "status": "partial",
+          "replan_count": 3,
+          "duration_ms": 267
+        }
+      }
+    ]
+  },
+  {
+    "case": "weather-failure",
+    "fixture": true,
+    "request": "경주 10~18시, 비가 오면 실내로",
+    "expected": "partial",
+    "actual": "partial",
+    "reply": "1. 시험 장소 · 경상북도 경주시 양정로\n관광지는 현재 카탈로그 기준입니다. 방문일 운영 여부와 개별 방문 시간은 확인이 필요합니다.\n체류와 이동의 합이 여행 시간 480분 이하여야 합니다.\n실제 운영시간과 이동·체류 소요를 확인해야 합니다.\n강수 확률 확인 불가로 날씨에 따른 교체 여부를 판단할 수 없습니다.",
+    "warnings": [
+      {
+        "code": "TIMEOUT",
+        "message": "외부 데이터를 가져오지 못했습니다.",
+        "tool": "get_weather"
+      }
+    ],
+    "events": [
+      {
+        "event_id": "fcbfbff5-259a-448c-9731-dca47cee8af3",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 1,
+        "type": "node_enter",
+        "node": "analyze",
+        "occurred_at": "2026-11-19T02:30:09.486612+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "b7da4518-8150-40a6-90a1-ca9243f4ba16",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 2,
+        "type": "llm_decision",
+        "node": "analyze",
+        "occurred_at": "2026-11-19T02:30:09.490111+00:00",
+        "payload": {
+          "intent": "create_plan",
+          "reason": "사용자가 요청한 여행 조건을 추출했습니다."
+        }
+      },
+      {
+        "event_id": "110544a0-73f4-4847-b744-6f73ca5047ca",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 3,
+        "type": "conditions_extracted",
+        "node": "analyze",
+        "occurred_at": "2026-11-19T02:30:09.494111+00:00",
+        "payload": {
+          "conditions": {
+            "region": "경주",
+            "date": "2026-11-21",
+            "start_time": "10:00",
+            "end_time": "18:00",
+            "count": 1,
+            "rain_indoor": true
+          },
+          "needs_input": false
+        }
+      },
+      {
+        "event_id": "fde9a76b-c9bc-41ce-929c-34b3a152a111",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 4,
+        "type": "node_exit",
+        "node": "analyze",
+        "occurred_at": "2026-11-19T02:30:09.498111+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 12
+        }
+      },
+      {
+        "event_id": "b378eebc-4805-40e8-bc50-3abb84444ca6",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 5,
+        "type": "node_enter",
+        "node": "plan",
+        "occurred_at": "2026-11-19T02:30:09.503969+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "63be43e7-5d17-4291-b469-d5352c31acbf",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 6,
+        "type": "plan_created",
+        "node": "plan",
+        "occurred_at": "2026-11-19T02:30:09.517933+00:00",
+        "payload": {
+          "tools": [
+            "search_attractions",
+            "get_weather"
+          ],
+          "detail_dependency": "search_attractions.content_id"
+        }
+      },
+      {
+        "event_id": "eed45ebf-38f6-4083-8398-be5a2ea12198",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 7,
+        "type": "node_exit",
+        "node": "plan",
+        "occurred_at": "2026-11-19T02:30:09.522492+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 10
+        }
+      },
+      {
+        "event_id": "d601d94e-bbc0-4728-aafa-2680c4b124a6",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 8,
+        "type": "node_enter",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.527493+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "659215c9-9f27-436b-a80a-b4d945aa07ab",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 9,
+        "type": "tool_requested",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.531492+00:00",
+        "payload": {
+          "tool": "search_attractions",
+          "arguments": {
+            "keyword": "경주",
+            "visit_date": "2026-11-21",
+            "page": 1,
+            "content_type_id": "12"
+          }
+        }
+      },
+      {
+        "event_id": "f500e013-f0a6-45d1-87f4-6477dad50886",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 10,
+        "type": "tool_completed",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.535475+00:00",
+        "payload": {
+          "tool": "search_attractions",
+          "ok": true,
+          "error_code": null,
+          "fields": [
+            "attractions"
+          ],
+          "result_count": 1,
+          "duration_ms": 0
+        }
+      },
+      {
+        "event_id": "c62214f9-638d-4bba-9d86-2839afbe0f9d",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 11,
+        "type": "tool_requested",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.535475+00:00",
+        "payload": {
+          "tool": "get_attraction_detail",
+          "arguments": {
+            "content_id": "121"
+          }
+        }
+      },
+      {
+        "event_id": "aafcce73-d421-4574-85a4-079553f075be",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 12,
+        "type": "tool_completed",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.535475+00:00",
+        "payload": {
+          "tool": "get_attraction_detail",
+          "ok": true,
+          "error_code": null,
+          "fields": [
+            "overview"
+          ],
+          "result_count": 0,
+          "duration_ms": 0
+        }
+      },
+      {
+        "event_id": "7d3b4c00-aa1a-4b55-a55a-e1fffa412782",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 13,
+        "type": "tool_requested",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.535475+00:00",
+        "payload": {
+          "tool": "get_weather",
+          "arguments": {
+            "latitude": 35.8562,
+            "longitude": 129.2248,
+            "date": "2026-11-21"
+          }
+        }
+      },
+      {
+        "event_id": "31a3d0c0-0b5d-4fdd-867e-886cd58853b1",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 14,
+        "type": "tool_completed",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.553535+00:00",
+        "payload": {
+          "tool": "get_weather",
+          "ok": false,
+          "error_code": "TIMEOUT",
+          "fields": [],
+          "result_count": 0,
+          "duration_ms": 0
+        }
+      },
+      {
+        "event_id": "e6c4b8b9-caf5-4ae6-81d0-69279920deda",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 15,
+        "type": "node_exit",
+        "node": "execute",
+        "occurred_at": "2026-11-19T02:30:09.557534+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 30
+        }
+      },
+      {
+        "event_id": "c6b776eb-44e8-4ad9-a87a-1f95f8b909f7",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 16,
+        "type": "node_enter",
+        "node": "integrate",
+        "occurred_at": "2026-11-19T02:30:09.561534+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "0fb0bd65-0961-46a3-ae3f-bfb020b32ae6",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 17,
+        "type": "node_exit",
+        "node": "integrate",
+        "occurred_at": "2026-11-19T02:30:09.565533+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 4
+        }
+      },
+      {
+        "event_id": "5f5da9ca-fd95-4fff-b325-81fe08c8a571",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 18,
+        "type": "node_enter",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.568336+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "35e1be23-c5c0-4775-8a40-d0fe1d3a1c06",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 19,
+        "type": "constraints_checked",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.568336+00:00",
+        "payload": {
+          "matched": 1,
+          "target": 1,
+          "indoor": false,
+          "replan": false,
+          "infeasible": false
+        }
+      },
+      {
+        "event_id": "b4e361be-f338-440b-892a-06de2d79bd52",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 20,
+        "type": "node_exit",
+        "node": "decide",
+        "occurred_at": "2026-11-19T02:30:09.568336+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 8
+        }
+      },
+      {
+        "event_id": "c3e23f8a-692e-4727-b585-c54ac5c0ebb5",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 21,
+        "type": "node_enter",
+        "node": "respond",
+        "occurred_at": "2026-11-19T02:30:09.584189+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "419cb985-f3ca-4456-818a-872262e21ab5",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 22,
+        "type": "node_exit",
+        "node": "respond",
+        "occurred_at": "2026-11-19T02:30:09.588824+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 4
+        }
+      },
+      {
+        "event_id": "ebd1d502-3dfa-4e7f-b04f-cc56fb406c6e",
+        "session_id": "77ba230f-3ca0-4f53-a6df-5dfab788b778",
+        "run_id": "30dfdab0-37ad-4406-b491-400d7d802985",
+        "seq": 23,
+        "type": "run_finished",
+        "node": "respond",
+        "occurred_at": "2026-11-19T02:30:09.596824+00:00",
+        "payload": {
+          "status": "partial",
+          "replan_count": 0,
+          "duration_ms": 113
+        }
+      }
+    ]
+  },
+  {
+    "case": "no-tool",
+    "fixture": false,
+    "request": "안녕하세요",
+    "expected": "complete",
+    "actual": "complete",
+    "reply": "안녕하세요. 경주 여행 날짜와 시간, 방문하고 싶은 장소 수를 알려 주시면 일정을 찾아드릴게요.",
+    "warnings": [],
+    "events": [
+      {
+        "event_id": "ea02477f-115d-4062-a871-3d9182d414a3",
+        "session_id": "aa922173-b91d-4acd-9e52-d63320d7fd60",
+        "run_id": "39b7d0b3-b116-40fc-8a9a-963d3af9c7b0",
+        "seq": 1,
+        "type": "node_enter",
+        "node": "analyze",
+        "occurred_at": "2026-11-19T02:30:09.629326+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "45eaacb6-746d-453b-86aa-8197c6312fc2",
+        "session_id": "aa922173-b91d-4acd-9e52-d63320d7fd60",
+        "run_id": "39b7d0b3-b116-40fc-8a9a-963d3af9c7b0",
+        "seq": 2,
+        "type": "node_exit",
+        "node": "analyze",
+        "occurred_at": "2026-11-19T02:30:09.633326+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 4
+        }
+      },
+      {
+        "event_id": "ce7fea83-27b3-431c-8b89-2a7d5c3ecd6c",
+        "session_id": "aa922173-b91d-4acd-9e52-d63320d7fd60",
+        "run_id": "39b7d0b3-b116-40fc-8a9a-963d3af9c7b0",
+        "seq": 3,
+        "type": "node_enter",
+        "node": "respond",
+        "occurred_at": "2026-11-19T02:30:09.635459+00:00",
+        "payload": {}
+      },
+      {
+        "event_id": "668fa631-930e-4958-b4da-d8cf48b085b6",
+        "session_id": "aa922173-b91d-4acd-9e52-d63320d7fd60",
+        "run_id": "39b7d0b3-b116-40fc-8a9a-963d3af9c7b0",
+        "seq": 4,
+        "type": "node_exit",
+        "node": "respond",
+        "occurred_at": "2026-11-19T02:30:09.635459+00:00",
+        "payload": {
+          "ok": true,
+          "duration_ms": 5
+        }
+      },
+      {
+        "event_id": "6eb3d386-440d-4c19-ae95-e3a7e677a633",
+        "session_id": "aa922173-b91d-4acd-9e52-d63320d7fd60",
+        "run_id": "39b7d0b3-b116-40fc-8a9a-963d3af9c7b0",
+        "seq": 5,
+        "type": "run_finished",
+        "node": "respond",
+        "occurred_at": "2026-11-19T02:30:09.650076+00:00",
+        "payload": {
+          "status": "complete",
+          "replan_count": 0,
+          "duration_ms": 23
+        }
+      }
+    ]
+  }
+]
