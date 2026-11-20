@@ -1,4 +1,4 @@
-from backend.database.store import append_event
+from backend.store import append_event
 
 
 def record_event(event):

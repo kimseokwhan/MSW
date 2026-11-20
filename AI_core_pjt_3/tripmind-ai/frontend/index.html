@@ -27,11 +27,19 @@
           <div id="messages" class="messages" aria-live="polite">
             <p class="message assistant">목적지, 여행 날짜, 가능한 시간대, 방문하고 싶은 장소 수를 알려 주세요. 비가 오면 실내로 바꾸는 조건도 요청할 수 있어요.</p>
           </div>
-          <div id="suggestions" class="suggestions">
-            <button class="chip" data-example="plan" data-region="부산 해운대구">부산 해운대구 관광지 3곳 추천</button>
-            <button class="chip" data-example="rain" data-region="제주시">제주시에서 비가 오면 실내로 변경</button>
-          </div>
           <div id="draft" class="draft" hidden></div>
+          <details class="prompt-guide">
+            <summary>여행 요청 작성 방법</summary>
+            <p>일정을 짤 때는 <strong>목적지, 날짜, 시작·종료 시간, 방문할 장소 수</strong>를 적어 주세요. 비가 오면 실내로 바꾸는 등 원하는 조건도 덧붙일 수 있어요.</p>
+            <p class="prompt-template">[날짜]에 [시도·시군구]에서 [시작 시간]부터 [종료 시간]까지 관광지 [장소 수]곳을 추천해 줘. [원하는 조건]</p>
+            <p>여러 날이면 “11월 21일부터 24일까지, 매일 오전 10시부터 오후 5시까지, 하루 2곳씩 실내와 야외를 섞어서”처럼 날짜 범위와 하루 기준을 적어 주세요.</p>
+            <p>장소 추천만 원하면 “부산 해운대구에서 가볼 만한 곳 3곳 추천해 줘”처럼 적어도 됩니다.</p>
+            <div class="suggestions">
+              <button type="button" class="chip" data-example="template">양식 넣기</button>
+              <button type="button" class="chip" data-example="plan" data-region="부산 해운대구">부산 일정 예시 넣기</button>
+              <button type="button" class="chip" data-example="rain" data-region="제주시">제주 실내 대안 예시 넣기</button>
+            </div>
+          </details>
           <form id="chat-form">
             <label class="sr-only" for="message">여행 조건 또는 질문</label>
             <textarea id="message" placeholder="여행 조건이나 질문을 입력하세요" rows="2" maxlength="4000" required></textarea>

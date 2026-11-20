@@ -138,6 +138,7 @@ class ChatResponse(BaseModel):
     reply: str
     questions: list[str]
     draft_plan: PlanInput | None
+    draft_plans: list[PlanInput] = Field(default_factory=list)
     evidence: list[Evidence]
     warnings: list[Warning]
     events: list[ExecutionEvent]

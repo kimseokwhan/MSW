@@ -35,7 +35,8 @@ class RequiredServiceTests(unittest.TestCase):
         return Conditions(**{"region": "경주", "date": self.date, "start_time": "10:00",
                              "end_time": "18:00", "count": 1, **changes})
 
-    def fake_sources(self, rain=10, indoor_available=True, weather_failure=False, empty=False):
+    def fake_sources(self, rain=10, indoor_available=True, weather_failure=False, empty=False,
+                     rows_per_page=1):
         def success(data):
             # Fixtures exercise the service path without depending on providers or their data.
             return ToolSuccess(data=RootModel(data))
@@ -45,8 +46,11 @@ class RequiredServiceTests(unittest.TestCase):
                 return ToolFailure(error=ToolError(code="NO_RESULT", message="empty"))
             indoor = args["content_type_id"] == "14" and indoor_available
             key = ("14" if indoor else "12") + str(args["page"])
-            return success({"attractions": [{"content_id": key, "title": "시험 장소",
-                             "address": "경상북도 경주시 양정로", "latitude": 35.8, "longitude": 129.2}]})
+            return success({"attractions": [
+                {"content_id": key if index == 0 else f"{key}0{index}", "title": "시험 장소",
+                 "address": "경상북도 경주시 양정로", "latitude": 35.8, "longitude": 129.2}
+                for index in range(rows_per_page)
+            ]})
 
         def detail(content_id):
             return success({"overview": "실내 전시" if content_id.startswith("14") else "야외 정원"})
@@ -147,7 +151,7 @@ class RequiredServiceTests(unittest.TestCase):
         self.assertEqual(self.client.delete(path).status_code, 204)
         self.assertEqual(self.client.get(path).status_code, 404)
         self.assertEqual(chat("안녕하세요", subscribers=()).status, "complete")
-        with self.assertLogs("backend.events.bus", level="WARNING"):
+        with self.assertLogs("backend.events", level="WARNING"):
             def broken(event):
                 raise RuntimeError("logging failed")
 
@@ -215,3 +219,37 @@ class RequiredServiceTests(unittest.TestCase):
         self.assertIn("현재 대기질", result["reply"])
         self.assertIn("PM10 20", result["reply"])
         self.assertEqual([item["source"] for item in result["evidence"]], ["TourAPI", "AirKorea"])
+
+    def test_four_day_range_saves_distinct_mixed_daily_plans(self):
+        self.fake_sources()
+        end = (datetime.fromisoformat(self.date) + timedelta(days=3)).date().isoformat()
+        self.fake_request(self.fake_conditions(count=2, end_date=end, category="mixed"))
+        result = self.message("나흘 동안 하루 두 곳, 실내와 야외를 섞어서 추천해 줘")
+        self.assertEqual(result["status"], "complete")
+        self.assertIsNone(result["draft_plan"])
+        days = result["draft_plans"]
+        self.assertEqual(len(days), 4)
+        self.assertEqual(days[-1]["visit_date"], end)
+        self.assertEqual(len({item["content_id"] for day in days for item in day["items"]}), 8)
+        for day in days:
+            self.assertEqual({item["content_id"][:2] for item in day["items"]}, {"12", "14"})
+            self.assertEqual(self.client.post("/api/plans", json=day).status_code, 201)
+        self.assertIn("4일차", result["reply"])
+        self.assertEqual(sum(name == "get_weather" for name, _ in self.calls(result)), 4)
+        self.assertEqual(sum(name == "get_air_quality" for name, _ in self.calls(result)), 1)
+
+    def test_mixed_request_reports_when_only_outdoor_is_available(self):
+        self.fake_sources(indoor_available=False)
+        self.fake_request(self.fake_conditions(count=2, days=2, category="mixed"))
+        result = self.message("이틀 동안 실내와 야외를 섞어 줘")
+        self.assertEqual(result["status"], "partial")
+        self.assertIn("실내·야외 조합을 충분히 구성하기 어렵습니다", result["reply"])
+        self.assertIn("[야외]", result["reply"])
+
+    def test_duration_honors_explicit_total_count_across_days(self):
+        self.fake_sources(rows_per_page=2)
+        self.fake_request(self.fake_conditions(count=None, days=4, total_count=5))
+        result = self.message("부산 3박 4일 일정에 전체 관광지 다섯 곳을 넣어 줘")
+        self.assertEqual(result["status"], "complete")
+        self.assertEqual([len(day["items"]) for day in result["draft_plans"]], [2, 1, 1, 1])
+        self.assertEqual(len({item["content_id"] for day in result["draft_plans"] for item in day["items"]}), 5)

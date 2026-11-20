@@ -20,31 +20,58 @@ flowchart TD
 
 ## AgentState
 
-| 필드 | 형식과 의미 |
-| --- | --- |
-| `session_id`, `run_id` | UUID. 대화 세션과 한 턴 실행 식별 |
-| `message`, `prior_summary` | 이번 요청과 직전 답변 요약 |
-| `intent`, `intent_reason` | `create_plan\|revise_plan\|lookup\|help\|other`와 한 줄 분류 근거 |
-| `conditions`, `missing_fields` | 기준 `date, start_time, end_time`, 선호 `region, category, weather`, 제약 `count, max_rain_pct, budget, min_stay_minutes, max_leg_minutes` 및 누락 항목. 값은 추출 근거와 함께 보관 |
-| `tasks` | `{task_id, tool, arguments, input_from, dependencies, required}` 목록 |
-| `tool_results`, `attempted_keys` | 도구명과 정규화된 인자 키로 결과 저장. 같은 검색 범위 반복 방지 |
-| `candidates`, `excluded`, `warnings` | 통합 후보, 근거 있는 제외 사유, 제약 미확인 또는 Tool 실패 |
-| `constraint_results` | 제약 단위 `met\|not_met\|unknown`, 계산값, 조건 기준, 근거 및 사유 |
-| `replan_count`, `max_replans`, `stop_reason` | 최초 계획은 0. 재계획 최대 3회와 종료 사유 |
-| `draft_plan`, `response`, `events` | 임시 일정, 최종 응답, 이번 실행의 화면용 이벤트 |
+- **`session_id`, `run_id`** — UUID. 대화 세션과 한 턴 실행 식별
+- **`message`, `prior_summary`** — 이번 요청과 직전 답변 요약
+- **`intent`, `intent_reason`** — `create_plan|revise_plan|lookup|help|other`와 한 줄 분류 근거
+- **`conditions`, `missing_fields`** — 기준 `date, start_time, end_time`, 선호 `region, category, weather`, 제약 `count, max_rain_pct, budget, min_stay_minutes, max_leg_minutes` 및 누락 항목. 값은 추출 근거와 함께 보관
+- **`tasks`** — `{task_id, tool, arguments, input_from, dependencies, required}` 목록
+- **`tool_results`, `attempted_keys`** — 도구명과 정규화된 인자 키로 결과 저장. 같은 검색 범위 반복 방지
+- **`candidates`, `excluded`, `warnings`** — 통합 후보, 근거 있는 제외 사유, 제약 미확인 또는 Tool 실패
+- **`constraint_results`** — 제약 단위 `met|not_met|unknown`, 계산값, 조건 기준, 근거 및 사유
+- **`replan_count`, `max_replans`, `stop_reason`** — 최초 계획은 0. 재계획 최대 3회와 종료 사유
+- **`draft_plan`, `response`, `events`** — 임시 일정, 최종 응답, 이번 실행의 화면용 이벤트
 
 ## 노드 계약
 
-| 노드 | 입력 | 출력 및 다음 조건 |
-| --- | --- | --- |
-| 요청 분석 | 메시지, 세션 요약 | 의도·조건·누락 항목. 일정 요청의 위치·날짜·시간대·장소 수가 부족하면 질문, 일반 대화는 응답, 나머지는 계획 |
-| 추가 질문 | 누락·모호 항목 | 한 번에 필요한 값을 요청. B 같은 조건부 사실/후보 조회는 날짜·지역으로 가능하며, 시간대 확정이 필요한 일정 요청에서 추가 질문 |
-| 작업 계획 | 의도·조건, 등록 Tool 설명, TourAPI 지역 코드 목록 | 시도·시군구 코드로 후보를 조회한다. 반환된 ID는 상세 조회로, 확인된 장소 좌표와 방문일은 날씨 조회로 넘긴다. 대기질은 목적지 시도의 현재 관측값을 확인한다. |
-| Tool 실행 | 작업 목록 및 기존 결과 | 등록 인자 검증 후 실행. 결과 또는 안전한 오류를 작업별로 저장. 실패한 작업에 의존한 후속 작업은 사유를 남기고 건너뛰며 독립 작업은 계속 |
-| 결과 통합 | Tool 결과 | ID 기준 후보와 상세 결합, 관측/예보를 구별해 보관 |
-| 제약 판단 | 후보, 조건, 보조 데이터 | 조건별 값과 근거를 산출. 충족, 부분 제안, 재계획 중 경로 결정 |
-| 재계획 | 제외 사유, 시도 이력 | 다른 페이지·유형 검색 등 새로운 작업을 만들고 실행 직전에 카운터를 1 증가. 사용자가 고정한 날짜·지역·기타 제약은 유지 |
-| 최종 응답 | 후보, 판단, 종료 이유 | 추천·제외 사유·Tool 결과 근거·예보/관측·미확인 값과 필요 확인 질문. 구성한 초안과 세션 요약 갱신 |
+### 요청 분석
+
+- **입력** — 메시지, 세션 요약
+- **출력 및 다음 조건** — 의도·조건·누락 항목. 일정 요청의 위치·날짜·시간대·장소 수가 부족하면 질문, 일반 대화는 응답, 나머지는 계획
+
+### 추가 질문
+
+- **입력** — 누락·모호 항목
+- **출력 및 다음 조건** — 한 번에 필요한 값을 요청. B 같은 조건부 사실/후보 조회는 날짜·지역으로 가능하며, 시간대 확정이 필요한 일정 요청에서 추가 질문
+
+### 작업 계획
+
+- **입력** — 의도·조건, 등록 Tool 설명, TourAPI 지역 코드 목록
+- **출력 및 다음 조건** — 시도·시군구 코드로 후보를 조회한다. 반환된 ID는 상세 조회로, 확인된 장소 좌표와 방문일은 날씨 조회로 넘긴다. 대기질은 목적지 시도의 현재 관측값을 확인한다.
+
+### Tool 실행
+
+- **입력** — 작업 목록 및 기존 결과
+- **출력 및 다음 조건** — 등록 인자 검증 후 실행. 결과 또는 안전한 오류를 작업별로 저장. 실패한 작업에 의존한 후속 작업은 사유를 남기고 건너뛰며 독립 작업은 계속
+
+### 결과 통합
+
+- **입력** — Tool 결과
+- **출력 및 다음 조건** — ID 기준 후보와 상세 결합, 관측/예보를 구별해 보관
+
+### 제약 판단
+
+- **입력** — 후보, 조건, 보조 데이터
+- **출력 및 다음 조건** — 조건별 값과 근거를 산출. 충족, 부분 제안, 재계획 중 경로 결정
+
+### 재계획
+
+- **입력** — 제외 사유, 시도 이력
+- **출력 및 다음 조건** — 다른 페이지·유형 검색 등 새로운 작업을 만들고 실행 직전에 카운터를 1 증가. 사용자가 고정한 날짜·지역·기타 제약은 유지
+
+### 최종 응답
+
+- **입력** — 후보, 판단, 종료 이유
+- **출력 및 다음 조건** — 추천·제외 사유·Tool 결과 근거·예보/관측·미확인 값과 필요 확인 질문. 구성한 초안과 세션 요약 갱신
 
 ## 제약 판단과 재계획
 

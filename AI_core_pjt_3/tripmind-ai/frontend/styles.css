@@ -49,7 +49,11 @@ p { line-height: 1.6; }
 }
 .message.user { align-self: flex-end; background: #dcefe7; }
 .notice { color: #864220; }
-.suggestions { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.prompt-guide { margin: 12px 0; border-top: 1px solid var(--line); padding-top: 10px; font-size: .88rem; }
+.prompt-guide summary { color: var(--green); cursor: pointer; font-weight: 700; }
+.prompt-guide p { margin: .55rem 0; }
+.prompt-template { background: #eff4f0; border-radius: 8px; padding: .6rem .75rem; }
+.suggestions { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip { font-size: .83rem; text-align: left; }
 form { display: grid; gap: 10px; }
 #chat-form { display: flex; align-items: end; }
@@ -59,7 +63,7 @@ textarea, input {
 }
 textarea { resize: vertical; }
 #send { flex: none; }
-.draft { margin: 14px 0; }
+.draft { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0; }
 .muted, .status { color: var(--muted); font-size: .87rem; }
 .status { min-height: 1.3em; margin: 7px 0 0; }
 .timeline { max-height: 650px; overflow: auto; }

@@ -73,22 +73,25 @@ function conflictText(result, verb) {
     : verb + "했습니다.";
 }
 
-function showDraft(plan) {
+function showDraft(plan, dailyPlans = []) {
   const container = $("draft");
   container.replaceChildren();
-  container.hidden = !plan;
-  if (!plan) return;
-  const save = button("이 일정 저장", async () => {
-    save.disabled = true;
-    try {
-      const result = await api("/plans", "POST", plan);
-      $("chat-status").textContent = conflictText(result, "저장");
-    } catch (error) {
-      $("chat-status").textContent = error.message;
-      save.disabled = false;
-    }
-  }, "");
-  container.append(save);
+  const plans = plan ? [plan] : dailyPlans;
+  container.hidden = !plans.length;
+  for (const day of plans) {
+    const label = plan ? "이 일정 저장" : day.visit_date + " 일정 저장";
+    const save = button(label, async () => {
+      save.disabled = true;
+      try {
+        const result = await api("/plans", "POST", day);
+        $("chat-status").textContent = conflictText(result, "저장");
+      } catch (error) {
+        $("chat-status").textContent = error.message;
+        save.disabled = false;
+      }
+    }, "");
+    container.append(save);
+  }
 }
 
 function showEvidence(evidence) {
@@ -118,7 +121,6 @@ $("chat-form").addEventListener("submit", async (event) => {
   $("send").disabled = true;
   $("new-chat").disabled = true;
   $("message").value = "";
-  $("suggestions").hidden = true;
   $("chat-status").textContent = "여행 조건을 확인하고 있습니다…";
   $("events").replaceChildren();
   $("event-empty").hidden = false;
@@ -134,7 +136,7 @@ $("chat-form").addEventListener("submit", async (event) => {
     for (const warning of warnings) appendMessage(warning, "assistant notice");
     $("event-empty").hidden = Boolean(result.events.length);
     showEvents($("events"), result.events);
-    showDraft(result.draft_plan);
+    showDraft(result.draft_plan, result.draft_plans);
     $("chat-status").textContent = "";
   } catch (error) {
     $("chat-status").textContent = error.message;
@@ -148,11 +150,16 @@ $("chat-form").addEventListener("submit", async (event) => {
 
 for (const chip of document.querySelectorAll(".chip")) {
   chip.addEventListener("click", () => {
+    if (chip.dataset.example === "template") {
+      $("message").value = document.querySelector(".prompt-template").textContent;
+      $("message").focus();
+      return;
+    }
     const kstDate = new Intl.DateTimeFormat("sv-SE", { timeZone: "Asia/Seoul" })
       .format(new Date(Date.now() + 2 * 86400000));
     $("message").value = chip.dataset.example === "plan"
       ? kstDate + " " + chip.dataset.region + ", 오전 10시부터 오후 6시까지 관광지 3곳 추천해 줘."
-      : kstDate + " " + chip.dataset.region + "에 비가 오면 실내 관광지로 바꿔 줘.";
+      : kstDate + " " + chip.dataset.region + "에서 오전 10시부터 오후 5시까지 관광지 3곳을 추천해 줘. 비가 오면 실내 관광지 위주로 추천해 줘.";
     $("message").focus();
   });
 }
@@ -166,7 +173,6 @@ $("new-chat").addEventListener("click", () => {
   $("event-empty").hidden = false;
   $("chat-status").textContent = "";
   $("message").value = "";
-  $("suggestions").hidden = false;
   showDraft(null);
 });
 

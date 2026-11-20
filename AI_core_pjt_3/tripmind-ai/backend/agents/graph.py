@@ -1,7 +1,7 @@
 import json
 import re
 import sqlite3
-from datetime import datetime
+from datetime import date, datetime, timedelta
 from threading import Lock
 from time import perf_counter
 from typing import TypedDict
@@ -11,8 +11,8 @@ from langgraph.graph import END, START, StateGraph
 
 from backend.agents.analyze import AnalysisError, Conditions, interpret
 from backend.agents.logger import record_event
-from backend.database import store
-from backend.events.bus import EventBus
+from backend import store
+from backend.events import EventBus
 from backend.schemas.service import ChatResponse
 from backend.tools.external_apis import KST
 from backend.tools.regions import Destination, resolve_destination
@@ -20,6 +20,7 @@ from backend.tools.registry import TOOLS
 
 
 MAX_REPLANS = 3
+MAX_TRIP_DAYS = 14
 SESSION_LOCKS = [Lock() for _ in range(32)]
 ASK = {"region": "어느 지역으로 가시나요?", "date": "여행 날짜는 언제인가요?",
        "start_time": "몇 시에 시작하시나요?", "end_time": "몇 시에 마치나요?",
@@ -55,6 +56,7 @@ class State(TypedDict, total=False):
     tour_blocked: bool
     infeasible: bool
     weather: dict | None
+    day_selections: list
     weather_point: str
     weather_attempted: bool
     air: dict | None
@@ -92,7 +94,24 @@ def analyze(state):
     changes = request.changes.model_dump(mode="json", exclude_unset=True, exclude_none=True)
     # A reply to a pending question can be only a date or a number.
     inherit = not request.reset and (request.intent == "revise_plan" or state["memory"].get("pending"))
-    conditions = Conditions.model_validate({**(previous if inherit else {}), **changes}).model_dump(mode="json")
+    base = previous.copy() if inherit else {}
+    if "days" in changes:
+        base.pop("end_date", None)
+    if "end_date" in changes:
+        base.pop("days", None)
+    if "total_count" in changes:
+        base.pop("count", None)
+    if "count" in changes:
+        base.pop("total_count", None)
+    if "date" in changes and "end_date" not in changes:
+        if base.get("date") and base.get("end_date") and "days" not in changes:
+            previous_length = (
+                date.fromisoformat(base["end_date"]) - date.fromisoformat(base["date"])
+            ).days + 1
+            if previous_length > 0:
+                base["days"] = previous_length
+        base.pop("end_date", None)
+    conditions = Conditions.model_validate({**base, **changes}).model_dump(mode="json")
     intent = state["memory"].get("pending_intent", "create_plan") if (
         inherit and state["memory"].get("pending") and request.intent == "revise_plan"
     ) else request.intent
@@ -101,7 +120,17 @@ def analyze(state):
         required = list(ASK)
     elif conditions["rain_indoor"] or conditions["weather"]:
         required.append("date")
-    questions = [ASK[key] for key in required if conditions.get(key) is None]
+    questions = [ASK[key] for key in required if conditions.get(key) is None
+                 and not (key == "count" and conditions["total_count"])]
+    if conditions["date"]:
+        start = date.fromisoformat(conditions["date"])
+        end = date.fromisoformat(conditions["end_date"]) if conditions["end_date"] else None
+        length = (end - start).days + 1 if end else conditions["days"] or 1
+        if (length < 1 or length - 1 > (date.max - start).days
+                or (end and conditions["days"] and conditions["days"] != length)):
+            questions.append("시작일·종료일과 여행 일수가 맞는지 확인해 주세요.")
+        elif length > MAX_TRIP_DAYS:
+            questions.append(f"한 번에 최대 {MAX_TRIP_DAYS}일까지 계획할 수 있습니다. 여행 날짜를 나눠 알려 주세요.")
     destination = None
     if conditions["region"]:
         matches = resolve_destination(conditions["region"])
@@ -124,21 +153,34 @@ def analyze(state):
     return {"conditions": conditions, "intent": intent, "questions": questions, "destination": destination}
 
 
+def trip_dates(conditions):
+    if not conditions["date"]:
+        return [None]
+    start = date.fromisoformat(conditions["date"])
+    end = conditions["end_date"]
+    length = (date.fromisoformat(end) - start).days + 1 if end else conditions["days"] or 1
+    return [(start + timedelta(days=offset)).isoformat() for offset in range(length)]
+
+
 def search_tasks(state, index):
     conditions = state["conditions"]
     destination = state["destination"]
-    indoor = state.get("indoor") or conditions["category"] == "indoor"
+    indoor = conditions["category"] == "indoor" or (
+        state.get("indoor") and len(trip_dates(conditions)) == 1 and conditions["category"] != "mixed"
+    )
     type_id = "14" if indoor else "12"
     page = index + 1
-    if not indoor and index % 2:
+    both = conditions["category"] == "mixed"
+    if not both and not indoor and index % 2:
         type_id, page = "14", index // 2 + 1
-    elif not indoor:
+    elif not both and not indoor:
         page = index // 2 + 1
     return [("search_attractions", {"region_code": destination.region_code,
                                     "district_codes": list(destination.districts),
                                     "excluded_districts": list(destination.excluded_districts),
                                     "visit_date": conditions["date"], "page": page,
-                                    "content_type_id": type_id})]
+                                    "content_type_id": kind})
+            for kind in (("12", "14") if both and not indoor else (type_id,))]
 
 
 def wants_attractions(state):
@@ -155,7 +197,7 @@ def plan(state):
     c = state["conditions"]
     tasks = search_tasks(state, 0) if wants_attractions(state) or wants_weather(state) else []
     if wants_weather(state):
-        tasks.append(("get_weather", {"date": c["date"]}))
+        tasks.extend(("get_weather", {"date": day}) for day in trip_dates(c))
     province = state["destination"].air_province
     if province and (c["air"] or wants_attractions(state)):
         tasks.append(("get_air_quality", {"province": province}))
@@ -203,7 +245,7 @@ def call_tool(state, cache, warnings, name, arguments):
 def execute(state):
     cache, warnings = state["cache"].copy(), list(state["warnings"])
     candidates = state["candidates"].copy()
-    weather, air = state.get("weather"), state.get("air")
+    weather, air = dict(state.get("weather") or {}), state.get("air")
     point, attempted = state.get("weather_point"), state.get("weather_attempted", False)
     blocked = state.get("tour_blocked", False)
     for name, args in state["tasks"]:
@@ -218,13 +260,15 @@ def execute(state):
             args = {**args, "latitude": located["latitude"], "longitude": located["longitude"]}
         data, code = call_tool(state, cache, warnings, name, args)
         if name == "get_weather":
-            weather = data
+            weather[args["date"]] = data
         elif name == "get_air_quality":
             air = data
         elif name == "search_attractions":
             blocked = code in AUTH_ERRORS or code in {"TIMEOUT", "NETWORK_ERROR"}
             if data:
-                size = min(12, max(3, state["conditions"]["count"] or 3) + 2)
+                c = state["conditions"]
+                target = c["total_count"] or (c["count"] or 3) * len(trip_dates(c))
+                size = min(12, max(3, target) + 2)
                 for row in [row for row in data["attractions"] if row["content_id"] not in candidates][:size]:
                     detail, detail_code = (call_tool(state, cache, warnings, "get_attraction_detail",
                                            {"content_id": row["content_id"]})
@@ -249,30 +293,89 @@ def minutes(value):
     return 60 * hour + minute
 
 
+def venue_type(row):
+    description, title = row.get("overview") or "", row["title"]
+    if re.search(r"(박물관|전시관|미술관|과학관|아쿠아리움|문화회관|도서관|공연장)$", title):
+        return "indoor"
+    if re.search(r"(공원|해변|해수욕장|산책로|둘레길|수목원)$", title):
+        return "outdoor"
+    indoor, outdoor = "실내" in description, ("야외" in description or "실외" in description)
+    if indoor == outdoor:
+        return None
+    return "indoor" if indoor else "outdoor"
+
+
+def select_days(state):
+    c = state["conditions"]
+    days = trip_dates(c)
+    total = c["total_count"]
+    threshold = c["max_rain_pct"] if c["max_rain_pct"] is not None else 50
+    weather = state.get("weather") or {}
+    records = []
+    for index, day in enumerate(days):
+        target = (total // len(days) + int(index < total % len(days))) if total else c["count"] or 3
+        rain = (weather.get(day) or {}).get("precipitation_probability_max")
+        indoor = c["rain_indoor"] and rain is not None and rain >= threshold
+        records.append({"date": day, "index": index, "target": target, "category": "indoor" if indoor else c["category"],
+                        "items": [], "missing_mix": False})
+    candidates = [dict(row, venue_type=venue_type(row)) for row in state["candidates"].values()]
+    used = set()
+    # Reserve suitable places for stricter days before filling unrestricted days.
+    priority = {"indoor": 0, "outdoor": 0, "mixed": 1}
+    for entry in sorted(records, key=lambda row: priority.get(row["category"], 2)):
+        pool = [row for row in candidates if row["content_id"] not in used]
+        target, category = entry["target"], entry["category"]
+        if category == "mixed":
+            indoors = [row for row in pool if row["venue_type"] == "indoor"]
+            outdoors = [row for row in pool if row["venue_type"] == "outdoor"]
+            first, second = (outdoors, indoors) if entry["index"] % 2 else (indoors, outdoors)
+            items = ((first[:1] + second[:1]) if target >= 2 else (first or second)[:target])
+        elif category in {"indoor", "outdoor"}:
+            items = [row for row in pool if row["venue_type"] == category][:target]
+        else:
+            items = pool[:target]
+        entry["items"] = items
+        used.update(row["content_id"] for row in items)
+    mixed = [entry for entry in records if entry["category"] == "mixed" and entry["target"]]
+    for entry in mixed:
+        items = entry["items"]
+        for kind in (("indoor", "outdoor") if entry["index"] % 2 == 0 else ("outdoor", "indoor")):
+            available = [row for row in candidates if row["venue_type"] == kind and row["content_id"] not in used]
+            added = available[:entry["target"] - len(items)]
+            items.extend(added)
+            used.update(row["content_id"] for row in added)
+        entry["missing_mix"] = entry["target"] >= 2 and len({item["venue_type"] for item in items}) < 2
+    if mixed and not any(entry["target"] >= 2 for entry in mixed):
+        kinds = {row["venue_type"] for entry in mixed for row in entry["items"]}
+        if len(kinds) < 2:
+            mixed[-1]["missing_mix"] = True
+    return records
+
+
 def decide(state):
     c = state["conditions"]
-    target = c["count"] or 3
-    rain = (state.get("weather") or {}).get("precipitation_probability_max")
+    days = select_days(state) if wants_attractions(state) else []
+    target = sum(day["target"] for day in days)
+    daily_target = max((day["target"] for day in days), default=0)
+    selected = [row for day in days for row in day["items"]]
+    missing_mix = any(day["missing_mix"] for day in days)
+    rain = next((row.get("precipitation_probability_max") for row in (state.get("weather") or {}).values()
+                 if row and row.get("precipitation_probability_max") is not None), None)
     threshold = c["max_rain_pct"] if c["max_rain_pct"] is not None else 50
-    rain_switch = bool(c["rain_indoor"] and rain is not None and rain >= threshold)
-    indoor = rain_switch or c["category"] == "indoor"
-    selected, excluded = [], []
-    for row in state["candidates"].values():
-        description = row.get("overview") or ""
-        title = row["title"]
-        indoor_evidence = "실내" in description or re.search(r"(박물관|전시관|미술관|과학관)$", title)
-        outdoor_evidence = "야외" in description or re.search(r"(공원|해수욕장|산책로)$", title)
-        if indoor and not (indoor_evidence and not outdoor_evidence):
-            excluded.append(f"{title} · 실내 방문 근거 부족")
-        elif c["category"] == "outdoor" and not indoor and not (outdoor_evidence and not indoor_evidence):
-            excluded.append(f"{title} · 야외 방문 근거 부족")
-        else:
-            selected.append(row)
+    indoor = bool(days and all(day["category"] == "indoor" for day in days))
+    excluded = []
+    if indoor or c["category"] == "outdoor" or c["category"] == "mixed":
+        for row in state["candidates"].values():
+            kind = venue_type(row)
+            if (indoor and kind != "indoor") or (c["category"] == "outdoor" and kind != "outdoor"):
+                excluded.append(f"{row['title']} · {'실내' if indoor else '야외'} 방문 근거 부족")
+            elif c["category"] == "mixed" and kind is None:
+                excluded.append(f"{row['title']} · 실내·야외 분류 미확인")
     constraints = []
     impossible = False
     if c["start_time"] and c["end_time"]:
         window = minutes(c["end_time"]) - minutes(c["start_time"])
-        lower_bound = target * (c["min_stay_minutes"] or 0)
+        lower_bound = daily_target * (c["min_stay_minutes"] or 0)
         impossible = lower_bound > window
         if impossible:
             constraints.append(f"최소 체류 {lower_bound}분이 여행 시간 {window}분을 초과합니다.")
@@ -288,15 +391,12 @@ def decide(state):
     if c["rain_indoor"]:
         constraints.append(f"일별 최대 강수 확률 {threshold}% 이상이면 실내 후보를 탐색합니다."
                            if rain is not None else "강수 확률 확인 불가로 날씨에 따른 교체 여부를 판단할 수 없습니다.")
-    search_requested = wants_attractions(state)
-    if not search_requested:
-        selected = []
     missing_point = wants_weather(state) and not state.get("weather_attempted")
-    replan = ((search_requested and len(selected) < target or missing_point) and not impossible
+    replan = ((len(selected) < target or missing_mix or missing_point) and not impossible
               and not state.get("tour_blocked") and state["replan_count"] < MAX_REPLANS)
     state["bus"].publish("constraints_checked", "decide", matched=len(selected), target=target,
                          indoor=bool(indoor), replan=bool(replan), infeasible=impossible)
-    return {"indoor": indoor, "selected": selected[:target], "excluded": excluded,
+    return {"indoor": indoor, "selected": selected, "day_selections": days, "excluded": excluded,
             "constraints": constraints, "needs_replan": bool(replan), "infeasible": impossible}
 
 
@@ -304,11 +404,11 @@ def replan(state):
     count = state["replan_count"] + 1
     # Indoor search begins on page 1 if the initial search was for outdoor candidates.
     index = count
-    if state["indoor"] and state["conditions"]["category"] != "indoor":
+    if state["indoor"] and len(trip_dates(state["conditions"])) == 1 and state["conditions"]["category"] not in {"indoor", "mixed"}:
         index -= 1
     tasks = search_tasks(state, index)
     if wants_weather(state) and not state.get("weather_attempted"):
-        tasks.append(("get_weather", {"date": state["conditions"]["date"]}))
+        tasks.extend(("get_weather", {"date": day}) for day in trip_dates(state["conditions"]))
     state["bus"].publish("replanned", "replan", count=count, reason="제약에 맞는 후보 수 부족",
                          tools=[name for name, _ in tasks], cached_results=len(state["cache"]))
     return {"tasks": tasks, "replan_count": count}
@@ -320,6 +420,7 @@ def respond(state):
     questions = state["questions"]
     evidence_list = []
     draft = None
+    drafts = []
     status = "complete"
     if state.get("fatal"):
         status, reply = "unavailable", warnings[-1]["message"]
@@ -332,23 +433,43 @@ def respond(state):
     else:
         lines = []
         selected = state.get("selected", [])
-        items = []
-        for index, row in enumerate(selected, 1):
-            tool = "get_attraction_detail" if row["detail_ok"] else "search_attractions"
-            fact = f"{row['title']} · {row.get('address') or '주소 확인 불가'}"
-            item_evidence = evidence(tool, fact)
-            evidence_list.append(item_evidence)
-            lines.append(f"{index}. {fact}")
-            items.append({key: row.get(key) for key in ("content_id", "title", "address", "latitude", "longitude")}
-                         | {"evidence": [item_evidence]})
-        if items:
+        days = state.get("day_selections", [])
+        multiple_days = len(trip_dates(c)) > 1
+        for day_number, day in enumerate(days, 1):
+            items = []
+            if multiple_days:
+                lines.append(f"\n{day_number}일차 · {day['date']}")
+            for index, row in enumerate(day["items"], 1):
+                tool = "get_attraction_detail" if row["detail_ok"] else "search_attractions"
+                fact = f"{row['title']} · {row.get('address') or '주소 확인 불가'}"
+                label = {"indoor": "[실내] ", "outdoor": "[야외] "}.get(row["venue_type"], "")
+                item_evidence = evidence(tool, fact)
+                evidence_list.append(item_evidence)
+                lines.append(f"{index}. {label}{fact}")
+                items.append({key: row.get(key) for key in ("content_id", "title", "address", "latitude", "longitude")}
+                             | {"evidence": [item_evidence]})
+            if len(items) < day["target"]:
+                lines.append(f"요청한 {day['target']}곳 중 {len(items)}곳의 후보를 확인했습니다.")
+            elif multiple_days and not day["target"]:
+                lines.append("요청한 전체 장소 수에 맞춰 방문 장소를 배정하지 않았습니다.")
+            if day["missing_mix"]:
+                lines.append("확인된 후보로는 요청한 실내·야외 조합을 충분히 구성하기 어렵습니다.")
+            if items and day["date"] and c["start_time"] and c["end_time"] and not state.get("infeasible"):
+                title = f"{c['region']} 여행"
+                if multiple_days:
+                    title += f" {day_number}일차"
+                drafts.append({"session_id": state["bus"].session_id, "title": title, "region": c["region"],
+                               "visit_date": day["date"], "start_time": c["start_time"], "end_time": c["end_time"],
+                               "items": items, "notes": " ".join(state.get("constraints", []))})
+        if selected:
             lines.append("관광지는 현재 카탈로그 기준입니다. 방문일 운영 여부와 개별 방문 시간은 확인이 필요합니다.")
-        if items and c["date"] and c["start_time"] and c["end_time"] and not state.get("infeasible"):
-            draft = {"session_id": state["bus"].session_id, "title": f"{c['region']} 여행", "region": c["region"],
-                     "visit_date": c["date"], "start_time": c["start_time"], "end_time": c["end_time"],
-                     "items": items, "notes": " ".join(state.get("constraints", []))}
-        if state.get("weather"):
-            weather = state["weather"]
+        if drafts and not multiple_days:
+            draft = drafts.pop()
+        for day, weather in (state.get("weather") or {}).items():
+            if not weather:
+                if multiple_days:
+                    lines.append(f"{day} 날씨 예보 확인 불가")
+                continue
             rain = weather["precipitation_probability_max"]
             forecast = (f"{weather['date']} {state['weather_point']} 인근 일별 최대 강수 확률 "
                         f"{f'{rain:g}%' if rain is not None else '확인 불가'}")
@@ -374,16 +495,16 @@ def respond(state):
         lines.extend(state.get("constraints", []))
         if state.get("excluded"):
             lines.append("제외 후보 · " + ", ".join(state["excluded"][:8]))
-        if state["replan_count"] >= MAX_REPLANS and len(selected) < (c["count"] or 3):
+        unmet = any(len(day["items"]) < day["target"] or day["missing_mix"] for day in days)
+        if state["replan_count"] >= MAX_REPLANS and unmet:
             lines.append("재계획을 3회 수행했습니다. 장소 수나 분류 조건을 조정하면 다시 탐색할 수 있습니다.")
         if not lines:
             lines.append("확인된 결과가 없습니다.")
-        needs_candidates = wants_attractions(state)
-        if warnings or state.get("infeasible") or (needs_candidates and len(items) < (c["count"] or 3)):
+        if warnings or state.get("infeasible") or unmet:
             status = "partial"
         reply = "\n".join(lines)
     return {"result": {"reply": reply, "status": status, "questions": questions,
-                        "draft_plan": draft, "evidence": evidence_list, "warnings": warnings}}
+                        "draft_plan": draft, "draft_plans": drafts, "evidence": evidence_list, "warnings": warnings}}
 
 
 def tracked(name, node):

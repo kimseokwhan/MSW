@@ -41,11 +41,20 @@
 
 ## 출처, 필수 인자와 이용 조건
 
-| 제공자 | 엔드포인트와 인자 | 인증·이용 조건 |
-| --- | --- | --- |
-| TourAPI | `https://apis.data.go.kr/B551011/KorService2/searchKeyword2`, `.../detailCommon2`. 공통 필수 `serviceKey, MobileOS, MobileApp`; 검색은 `keyword`, 상세는 `contentId`. 코드에서 `_type=json`을 지정. 검색 응답에서 기대하는 필드는 `contentid,title,addr1,addr2,mapx,mapy`다. | 공공데이터포털 활용 신청과 서비스키 필요. 무료. 개발계정 1,000건/일, 운영은 활용사례 등록 후 증량 신청. 일반 이용허락은 포털 표기를 따르며 이미지에는 개별 공공누리 유형과 별도 제한이 있다. [공식 서비스와 명세](https://www.data.go.kr/data/15101578/openapi.do?recommendDataYn=Y) |
-| Open-Meteo | `https://api.open-meteo.com/v1/forecast`. WGS84 `latitude,longitude` 필수, `daily` 요청 시 `timezone` 필수. `daily=precipitation_probability_max,temperature_2m_min,temperature_2m_max`, `timezone=Asia/Seoul`, `forecast_days=16`. 일별 시계열을 `daily.time`에 맞춰 읽는다. | 무료 비상업 엔드포인트는 키 없이 이용. 일 10,000, 시간 5,000, 분 600 호출 미만. CC BY 4.0에 따라 출처 표시. 공식 기본 예보 7일, 최대 16일이며 실제 반환 날짜를 확인해야 한다. [공식 API 문서](https://open-meteo.com/en/docs) · [이용약관](https://open-meteo.com/en/terms) |
-| 에어코리아 | `https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty`. `serviceKey,sidoName` 필수, `returnType=json,pageNo=1,numOfRows=100,ver=1.0` 지정. `stationName,dataTime,pm10Value,pm25Value`를 확인한다. | 공공데이터포털 활용 신청과 서비스키 필요. 무료. 개발계정 안내 기준 일 500건이며 상세기능별 승인 한도를 마이페이지에서 확인한다. 운영계정은 심의 신청. 포털의 공공누리 3유형·제3자 권리 표시에 따라 출처 표시 및 원자료 변경 금지 조건을 따른다. 지역 대푯값으로 변환하지 않고 해당 측정소의 원 단위 관측값을 표시한다. [공식 서비스와 명세](https://www.data.go.kr/data/15073861/openapi.do) · [공공누리 제3유형](https://www.kogl.or.kr/info/licenseType3.do) |
+### TourAPI
+
+- **엔드포인트와 인자** — `https://apis.data.go.kr/B551011/KorService2/searchKeyword2`, `.../detailCommon2`. 공통 필수 `serviceKey, MobileOS, MobileApp`; 검색은 `keyword`, 상세는 `contentId`. 코드에서 `_type=json`을 지정. 검색 응답에서 기대하는 필드는 `contentid,title,addr1,addr2,mapx,mapy`다.
+- **인증·이용 조건** — 공공데이터포털 활용 신청과 서비스키 필요. 무료. 개발계정 1,000건/일, 운영은 활용사례 등록 후 증량 신청. 일반 이용허락은 포털 표기를 따르며 이미지에는 개별 공공누리 유형과 별도 제한이 있다. [공식 서비스와 명세](https://www.data.go.kr/data/15101578/openapi.do?recommendDataYn=Y)
+
+### Open-Meteo
+
+- **엔드포인트와 인자** — `https://api.open-meteo.com/v1/forecast`. WGS84 `latitude,longitude` 필수, `daily` 요청 시 `timezone` 필수. `daily=precipitation_probability_max,temperature_2m_min,temperature_2m_max`, `timezone=Asia/Seoul`, `forecast_days=16`. 일별 시계열을 `daily.time`에 맞춰 읽는다.
+- **인증·이용 조건** — 무료 비상업 엔드포인트는 키 없이 이용. 일 10,000, 시간 5,000, 분 600 호출 미만. CC BY 4.0에 따라 출처 표시. 공식 기본 예보 7일, 최대 16일이며 실제 반환 날짜를 확인해야 한다. [공식 API 문서](https://open-meteo.com/en/docs) · [이용약관](https://open-meteo.com/en/terms)
+
+### 에어코리아
+
+- **엔드포인트와 인자** — `https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty`. `serviceKey,sidoName` 필수, `returnType=json,pageNo=1,numOfRows=100,ver=1.0` 지정. `stationName,dataTime,pm10Value,pm25Value`를 확인한다.
+- **인증·이용 조건** — 공공데이터포털 활용 신청과 서비스키 필요. 무료. 개발계정 안내 기준 일 500건이며 상세기능별 승인 한도를 마이페이지에서 확인한다. 운영계정은 심의 신청. 포털의 공공누리 3유형·제3자 권리 표시에 따라 출처 표시 및 원자료 변경 금지 조건을 따른다. 지역 대푯값으로 변환하지 않고 해당 측정소의 원 단위 관측값을 표시한다. [공식 서비스와 명세](https://www.data.go.kr/data/15073861/openapi.do) · [공공누리 제3유형](https://www.kogl.or.kr/info/licenseType3.do)
 
 ### 키 발급과 설정
 

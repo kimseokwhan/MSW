@@ -21,12 +21,57 @@ HTTP 호출은 연결 5초, 읽기 15초이며 HTTP 상태와 공공데이터포
 
 ## 외부 Tool
 
-| 이름 | 모델에게 전달할 호출 설명 | 입력 JSON 객체 | 성공 `data` JSON 객체 |
-| --- | --- | --- | --- |
-| `search_attractions` | 목적지에 갈 후보가 아직 없거나 대안을 더 찾아야 할 때 호출한다. | `keyword:string?`, `region_code:string?` 중 하나 필요. `district_codes:string[]`, `excluded_districts:string[]`는 지역 코드와 함께 사용. `visit_date:date?`, `page:integer>=1` 기본 1, `content_type_id:"12"\|"14"` 기본 "12" | `source:"TourAPI", requested_date:date, checked_at:datetime, basis:"current_catalog", page:integer, attractions:Attraction[]` |
-| `get_attraction_detail` | 확보한 관광지 ID의 상세 속성이 제약 판단이나 표시 근거에 필요할 때 호출한다. | `content_id:string` 필수, 숫자 문자열 | `Attraction`의 필드와 `source:"TourAPI", overview:string?, homepage:string?` |
-| `get_weather` | 방문일 강수 확률이나 기온을 알려 주거나 강수 조건을 판단할 때 호출한다. | `latitude:number, longitude:number, date:date` 모두 필수 | `source:"Open-Meteo", kind:"forecast", date:date, timezone:"Asia/Seoul", precipitation_probability_max:number?, temperature_min_c:number?, temperature_max_c:number?, available_from:date, available_to:date` |
-| `get_air_quality` | 해당 시도 측정소의 현재 대기질을 참고 정보로 제시할 때 호출한다. | `province:string` 필수, 예시 `경북` | `source:"AirKorea", kind:"observation", province:string, observations:Observation[]` |
+### `search_attractions`
+
+- **호출 시점** — 목적지에 갈 후보가 아직 없거나 대안을 더 찾아야 할 때 호출한다.
+- **입력** — `keyword:string?`, `region_code:string?` 중 하나 필요. `district_codes:string[]`, `excluded_districts:string[]`는 지역 코드와 함께 사용. `visit_date:date?`, `page:integer>=1` 기본 1, `content_type_id:"12"|"14"` 기본 "12"
+- **성공 응답의 데이터**
+
+  ```text
+  source:"TourAPI",
+  requested_date:date,
+  checked_at:datetime,
+  basis:"current_catalog",
+  page:integer,
+  attractions:Attraction[]
+  ```
+
+### `get_attraction_detail`
+
+- **호출 시점** — 확보한 관광지 ID의 상세 속성이 제약 판단이나 표시 근거에 필요할 때 호출한다.
+- **입력** — `content_id:string` 필수, 숫자 문자열
+- **성공 응답의 데이터** — `Attraction`의 필드와 `source:"TourAPI", overview:string?, homepage:string?`
+
+### `get_weather`
+
+- **호출 시점** — 방문일 강수 확률이나 기온을 알려 주거나 강수 조건을 판단할 때 호출한다.
+- **입력** — `latitude:number, longitude:number, date:date` 모두 필수
+- **성공 응답의 데이터**
+
+  ```text
+  source:"Open-Meteo",
+  kind:"forecast",
+  date:date,
+  timezone:"Asia/Seoul",
+  precipitation_probability_max:number?,
+  temperature_min_c:number?,
+  temperature_max_c:number?,
+  available_from:date,
+  available_to:date
+  ```
+
+### `get_air_quality`
+
+- **호출 시점** — 해당 시도 측정소의 현재 대기질을 참고 정보로 제시할 때 호출한다.
+- **입력** — `province:string` 필수, 예시 `경북`
+- **성공 응답의 데이터**
+
+  ```text
+  source:"AirKorea",
+  kind:"observation",
+  province:string,
+  observations:Observation[]
+  ```
 
 `Attraction` 객체는 `content_id:string, title:string, address:string?, latitude:number?, longitude:number?, content_type_id:string?, category_code:string?`를 포함한다. `Observation`은 `station_name:string, measured_at:datetime, pm10_ug_m3:number?, pm25_ug_m3:number?`를 포함한다.
 

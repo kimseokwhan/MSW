@@ -8,8 +8,8 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import ValidationError
 
-from backend.database.store import NotFound, initialize
-from backend.routers.api import router
+from backend.api import router
+from backend.store import NotFound, initialize
 
 
 @asynccontextmanager
