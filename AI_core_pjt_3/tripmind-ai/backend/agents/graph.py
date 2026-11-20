@@ -48,9 +48,7 @@ class State(TypedDict, total=False):
     candidates: dict
     selected: list
     excluded: list
-    evidence: list
     replan_count: int
-    search_index: int
     needs_replan: bool
     fatal: bool
     tour_blocked: bool

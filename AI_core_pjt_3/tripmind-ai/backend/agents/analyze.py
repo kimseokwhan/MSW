@@ -4,7 +4,7 @@ from datetime import date as CalendarDate
 from typing import Literal
 
 from openai import APIError, OpenAI
-from pydantic import BaseModel, Field, ValidationError
+from pydantic import BaseModel, Field
 
 from backend.config import setting
 from backend.llm import call_function
