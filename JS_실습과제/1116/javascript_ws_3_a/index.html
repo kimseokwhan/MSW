@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 아래에 코드 작성
+    // const add = (a, b) => a + b
+    // const subtract = (a, b) => a - b
+    // const multiply = (a, b) => a * b
+    // const multiply = (a, b) => {
+    //   return a * b
+    // }
+
+    // 1. 선언식 : 안 쓰는 이유?? 호이스팅 때문(함수를 위로 끌어올리는 것)
+    function add(x, y) {
+      return x + y
+    }
+    // 2. 표현식
+    const subtract = function(x, y) {
+      return x - y
+    }
+    // 3. 화살표함수
+    const multiply = (x, y) => x * y
+
+    // 함수 호출
+    console.log(add(5, 3)) // 8
+    console.log(subtract(5, 3)) // 2
+    console.log(multiply(5, 3)) // 15
+  </script>
+</body>
+
+</html>
