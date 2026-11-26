@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <h1>{{ count }}</h1>
+    <button v-on:click="up">+</button>
+    <button v-on:click="down">-</button>
+  </div>
+
+  <script src="https://unpkg.com/vue@3.5.44/dist/vue.global.js"></script>
+  <script>
+    const { createApp, ref } = Vue
+
+    const app = createApp({
+      setup() {
+        const count = ref(0)
+        const up = function () {
+          count.value++
+        }
+        const down = function () {
+          count.value--
+        }
+        return {count, up, down}
+      }
+    })
+    app.mount('#app')
+  </script>
+</body>
+
+</html>
