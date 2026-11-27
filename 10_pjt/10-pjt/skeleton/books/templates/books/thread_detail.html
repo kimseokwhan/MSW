@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+  {% if thread.cover_img %}
+  <div class="mb-3" style="width: 100%;">
+    <img src="{{ thread.cover_img.url }}" alt="Thread Cover Image" class="img-fluid">
+  </div>
+  {% endif %}
+
+  <div class="d-flex flex-row justify-content-between align-items-between">
+    <h1 class="mb-3">{{ thread.title }}</h1>
+    <div>
+      {% if thread.user == user %}
+        <a href="{% url 'books:thread_update' book.pk thread.pk %}" class="btn btn-secondary">수정</a>
+        <form action="{% url 'books:thread_delete' book.pk thread.pk %}" method="POST" class="d-inline ms-2">
+          {% csrf_token %}
+          <input type="submit" value="삭제" class="btn btn-danger">
+        </form>
+      {% endif %}
+    </div>
+  </div>
+  
+  <div class="mb-2">
+    <strong>도서:</strong> <a href="{% url 'books:detail' book.pk %}">{{ book.title }}</a>
+    <strong class="ms-2">작성자:</strong> <a href="{% url 'accounts:profile' thread.user.username %}">{{ thread.user.username }}</a>
+    <strong class="ms-2">독서일:</strong> {{ thread.reading_date }}
+  </div>
+  
+  <div class="mb-3">
+    <p>{{ thread.content }}</p>
+  </div>
+  
+  <!-- 좋아요 영역 -->
+  <div class="d-flex flex-row justify-content-start align-items-center gap-4">
+    <span>♥ <span id="likes-count">{{ thread.likes.count }}</span> 좋아요</span>
+    {% if user.is_authenticated %}
+      <form id="like-form" data-book-id="{{ book.pk }}" data-thread-id="{{ thread.pk }}">
+        {% csrf_token %}
+        <button type="submit" id="like-btn" class="btn btn-sm btn-outline-danger">
+          {% if user in thread.likes.all %}
+            좋아요 취소
+          {% else %}
+            좋아요
+          {% endif %}
+        </button>
+      </form>
+    {% endif %}
+  </div>
+  <hr>
+  
+  <!-- 쓰레드 댓글 출력 섹션 -->
+  <h3>댓글</h3>
+  <div class="mb-3" id="comment-list" data-book-id="{{ book.pk }}">
+    {% for comment in thread.comments.all %}
+      <div id="comment-{{ comment.pk }}" class="d-flex flex-row align-items-baseline gap-2">
+        <p>{{ comment.content }}</p>
+        <small><a href="{% url 'accounts:profile' comment.user.username %}"> ({{ comment.user.username }})</a></small>
+        {% if comment.user == user %}
+          <button class="delete-comment-btn" data-comment-id="{{ comment.pk }}">삭제</button>
+        {% endif %}
+      </div>
+    {% empty %}
+      <p id="no-comments">작성된 댓글이 없습니다.</p>
+    {% endfor %}
+  </div>
+
+  <!-- 댓글 작성 폼 -->
+  <h4>댓글 작성</h4>
+  <form id="comment-form" method="POST" action="{% url 'books:create_comment' book.pk thread.pk %}">
+    {% csrf_token %}
+    {{ comment_form.content }}
+    <input type="submit" value="전송">
+  </form>
+  
+  <hr>
+  
+  <a href="{% url 'books:detail' thread.book.pk %}" class="btn btn-secondary">BACK</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  const likeForm = document.querySelector('#like-form')
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+
+  if (likeForm) {
+    likeForm.addEventListener('submit', function (event) {
+      event.preventDefault()
+
+      const bookId = event.currentTarget.dataset.bookId
+      const threadId = event.currentTarget.dataset.threadId
+
+      axios({
+        method: 'post',
+        url: `/books/${bookId}/thread/${threadId}/likes/`,
+        headers: { 'X-CSRFToken': csrftoken },
+      })
+        .then((response) => {
+          const isLiked = response.data.is_liked
+          const likesCount = response.data.likes_count
+
+          const likeBtn = document.querySelector('#like-btn')
+          const likesCountTag = document.querySelector('#likes-count')
+
+          likesCountTag.innerText = likesCount
+          if (isLiked) {
+            likeBtn.innerText = '좋아요 취소'
+          } else {
+            likeBtn.innerText = '좋아요'
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    })
+  }
+
+  const commentForm = document.querySelector('#comment-form')
+  const commentList = document.querySelector('#comment-list')
+
+  if (commentForm) {
+    commentForm.addEventListener('submit', function (event) {
+      event.preventDefault()
+
+      const formData = new FormData(commentForm)
+
+      axios({
+        method: 'post',
+        url: commentForm.action,
+        data: formData,
+        headers: { 'X-CSRFToken': csrftoken },
+      })
+      .then((response) => {
+        const { comment_pk, content, username } = response.data
+
+        const noComments = document.querySelector('#no-comments')
+        if (noComments) {
+          noComments.remove()
+        }
+        const commentDiv = document.createElement('div')
+        commentDiv.id = `comment-${comment_pk}`
+        commentDiv.className = 'd-flex flex-row align-items-baseline gap-2'
+        commentDiv.innerHTML = `
+            <p>${content}</p>
+            <small><a href="/accounts/profile/${username}/"> (${username})</a></small>
+            <button class="delete-comment-btn" data-comment-id="${comment_pk}">삭제</button>
+          `
+          commentList.appendChild(commentDiv)
+          commentForm.reset()
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    })
+  }
+  
+  if (commentList) {
+    commentList.addEventListener('click', function (event) {
+      if (event.target.classList.contains('delete-comment-btn')) {
+        const commentId = event.target.dataset.commentId
+        const bookId = commentList.dataset.bookId
+
+        axios({
+          method: 'post',
+          url: `/books/${bookId}/comment/${commentId}/delete/`,
+          headers: { 'X-CSRFToken': csrftoken },
+        })
+        .then((response) => {
+          const targetComment = document.querySelector(`#comment-${commentId}`)
+          if (targetComment) {
+            targetComment.remove()
+          }
+          if (commentList.children.length === 0) {
+            commentList.innerHTML = '<p id="no-comments">작성된 댓글이 없습니다.</p>'
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+      }
+    })
+  }
+</script>
+{% endblock content %}
